@@ -12,4 +12,5 @@ class AppColors {
   static const Color skyBlue_card = Color(0xFFDEEBFF); 
   static const Color softGrey_board = Color(0xFFF4F5F7); 
   static const Color white = Color(0xFFFFFFFF); 
+  static const Color black = Color(0xFF000000); 
 }
