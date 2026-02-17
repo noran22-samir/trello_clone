@@ -16,8 +16,8 @@ class TrelloApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => SplashScreen(),
-        '/home': (context) => HomeScreen(),
+        // '/': (context) => SplashScreen(),
+        '/': (context) => HomeScreen(),
         '/signUp': (context) => SignUpScreen(),
         '/login': (context) => LoginScreen(),
       },
