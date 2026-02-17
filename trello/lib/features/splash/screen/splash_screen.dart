@@ -48,19 +48,17 @@ class _SplashScreenState extends State<SplashScreen>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 370,),
-            /// Logo Animation
+            SizedBox(height: 340,),
             FadeTransition(
               opacity: _fadeAnimation,
               child: ScaleTransition(
                 scale: _scaleAnimation,
-                child: Image.asset('assets/logo.png', width: 140),
+                child: Image.asset('assets/images/logo.png', width: 140),
               ),
             ),
 
             const SizedBox(height: 30),
 
-            /// Slogan
             FadeTransition(
               opacity: _fadeAnimation,
               child: Text(
