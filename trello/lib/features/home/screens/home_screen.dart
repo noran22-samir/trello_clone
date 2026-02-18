@@ -11,14 +11,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: FilledButton(
-          onPressed: () {
-            Navigator.pushNamed(context, "/signUp");
-          },
-          child: Text(
-            'Home Screen',
-            style: TextStyle(fontSize: 24),
+      appBar: AppBar(
+        leadingWidth: 35,
+        title: Padding(
+          padding: const EdgeInsets.fromLTRB(3, 5, 0, 5),
+          child: Row(
+            children: [
+              Image.asset("assets/images/logo_icon.png", width: 35, height: 35),
+              SizedBox(width: 5),
+              const Text(
+                "Trello",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+            ],
           ),
         ),
       ),
