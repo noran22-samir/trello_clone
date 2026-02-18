@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
-                        color: const Color.fromARGB(255, 21, 183, 167),
+                        color:AppColors.blueDark_searchButton,
                       ),
                     ),
                   ),
@@ -226,8 +226,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: _isSignHoverd
-                              ? const Color.fromARGB(255, 23, 193, 176)
-                              : const Color.fromARGB(255, 24, 193, 176),
+                              ? AppColors.blueDark_searchButton
+                              :AppColors.blueDark_searchButton,
                           padding: EdgeInsets.symmetric(
                             horizontal: 50,
                             vertical: 15,
@@ -288,8 +288,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             "Sign Up",
                             style: TextStyle(
                               color: _isLoginHoverd
-                                  ? const Color.fromARGB(237, 41, 125, 125)
-                                  : const Color.fromARGB(255, 20, 193, 176),
+                                  ? AppColors.blueDark_searchButton
+                                  : AppColors.blueDark_searchButton,
                               fontWeight: FontWeight.w700,
                               fontStyle: FontStyle.italic,
                               fontSize: 16,

@@ -3,6 +3,8 @@ import 'package:trello/features/home/screens/home_screen.dart';
 import 'package:trello/features/login/screen/login_screen.dart';
 import '../features/signUp/screen/sign_up_screen.dart';
 import './features/splash/screen/splash_screen.dart';
+import 'package:trello/features/on_boading/screens/onBoarding.dart';
+
 void main() {
   runApp(TrelloApp());
 }
@@ -16,10 +18,12 @@ class TrelloApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        // '/': (context) => SplashScreen(),
-        '/': (context) => HomeScreen(),
+        '/': (context) => SplashScreen(),
+        '/on_boarding': (context) => OnboardingScreen(),
         '/signUp': (context) => SignUpScreen(),
         '/login': (context) => LoginScreen(),
+        '/home': (context) => HomeScreen(),
+        
       },
     );
   }
