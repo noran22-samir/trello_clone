@@ -39,10 +39,10 @@ class boardsUi extends StatelessWidget {
                 child: Row(
                   children: [
                     Opacity(opacity: 0.4, child: Icon(Icons.favorite_border)),
-                    Container(height: 18, child: VerticalDivider(thickness: 1)),
+                    SizedBox(height: 18, child: VerticalDivider(thickness: 1)),
                     Opacity(opacity: 0.4, child: Icon(Icons.public)),
                     Opacity(opacity: 0.4, child: Text("Public")),
-                    Container(height: 18, child: VerticalDivider(thickness: 1)),
+                    SizedBox(height: 18, child: VerticalDivider(thickness: 1)),
                     Opacity(opacity: 0.4, child: Icon(Icons.lock_outlined)),
                     Spacer(flex: 1),
 

@@ -319,7 +319,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onPressed: () {
                           if (_fromKey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Sign Up Successful!')),
+                              SnackBar(content: Text('Sign Up Successful!'),
+                              duration: Duration(seconds: 1),
+                              ),
                             );
                             Navigator.pushNamed(context, "/login");
                           }
