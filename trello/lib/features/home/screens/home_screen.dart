@@ -773,6 +773,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() => _selectedIndex = 3);
+                      Navigator.pushNamed(context, "/settings");
                     },
                     constraints: const BoxConstraints(),
                     icon: Icon(

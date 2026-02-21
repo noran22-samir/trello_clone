@@ -26,7 +26,6 @@ class _RecentScreenState extends State<RecentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.only(top: 9),
           child: Row(
@@ -341,6 +340,7 @@ class _RecentScreenState extends State<RecentScreen> {
                   ),
                 ],
               ),
+              // comment
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -348,6 +348,7 @@ class _RecentScreenState extends State<RecentScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() => _selectedIndex = 3);
+                      Navigator.pushNamed(context, "/settings");
                     },
                     constraints: const BoxConstraints(),
                     icon: Icon(

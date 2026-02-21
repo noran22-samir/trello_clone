@@ -26,7 +26,6 @@ class _PersonalScreenState extends State<PersonalScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.only(top: 9),
           child: Row(
@@ -352,6 +351,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() => _selectedIndex = 3);
+                      Navigator.pushNamed(context, "/settings");
                     },
                     constraints: const BoxConstraints(),
                     icon: Icon(

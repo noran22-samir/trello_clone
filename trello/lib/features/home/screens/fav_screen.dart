@@ -26,7 +26,6 @@ class _FavScreenState extends State<FavScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.only(top: 9),
           child: Row(
@@ -348,6 +347,7 @@ class _FavScreenState extends State<FavScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() => _selectedIndex = 3);
+                      Navigator.pushNamed(context, "/settings");
                     },
                     constraints: const BoxConstraints(),
                     icon: Icon(
