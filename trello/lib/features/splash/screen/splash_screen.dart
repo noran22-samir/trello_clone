@@ -1,6 +1,10 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trello/features/on_boading/screens/onBoarding.dart';
+import '../cubit/splash_cubit.dart';
+import '../cubit/splash_state.dart';
+import 'package:trello/core/utils/app_colors.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -40,13 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    /// to on boarding
-    Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const OnboardingScreen()),
-      );
-    });
+    context.read<SplashCubit>().startSplash();
   }
 
   @override
@@ -57,58 +55,56 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: ScaleTransition(
-                    scale: _scaleAnimation,
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      width: 140,
+    return BlocListener<SplashCubit, SplashState>(
+      listener: (context, state) {
+        if (state is SplashFinished) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const OnboardingScreen()),
+          );
+        }
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: ScaleTransition(
+                      scale: _scaleAnimation,
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        width: 180,
+                      ),
                     ),
                   ),
-                ),
-
-                const SizedBox(height: 30),
-
-                FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Text(
-                    'Plan, track, and get things done!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey.shade700,
-                    ),
+                  const SizedBox(height: 50),
+                  const CircularProgressIndicator(
+                    strokeWidth: 2.5,
+                    color: AppColors.blueMain_buttons ,
                   ),
-                ),
-              ],
-            ),
-          ),
-
-          Positioned(
-            bottom: 24,
-            left: 0,
-            right: 0,
-            child: Text(
-              '© 2026 Trello Clone',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey.shade500,
-                letterSpacing: 0.8,
+                ],
               ),
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 24,
+              left: 0,
+              right: 0,
+              child: Text(
+                '© 2026 Trello Clone',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey.shade500,
+                  letterSpacing: 0.8,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trello/features/home/screens/home_screen.dart';
 import 'package:trello/features/login/screen/login_screen.dart';
 import 'package:trello/features/splash/screen/splash_screen.dart';
-import 'package:trello/features/boards/screens/boardsUi.dart';
 import '../features/signUp/screen/sign_up_screen.dart';
-import './features/splash/screen/splash_screen.dart';
+import 'package:trello/features/splash/cubit/splash_cubit.dart';
 import 'package:trello/features/on_boading/screens/onBoarding.dart';
-
 void main() {
-  runApp(TrelloApp());
+  runApp(const TrelloApp());
 }
 
 class TrelloApp extends StatelessWidget {
@@ -16,20 +15,43 @@ class TrelloApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => SplashScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SplashCubit>(create: (_) => SplashCubit()..startSplash()),
+    /*
+    ================== TEAM NOTE ==================
 
-        '/on_boarding': (context) => OnboardingScreen(),
+      When you finish a Cubit for any Feature:
+    1️⃣ Add its BlocProvider here
+        Example:
+        BlocProvider<AuthCubit>(
+          create: (_) => AuthCubit(),
+        ),
 
+    2️⃣ Add the corresponding Screen Route below in `routes`
 
-        '/signUp': (context) => SignUpScreen(),
-        '/login': (context) => LoginScreen(),
-        '/home': (context) => HomeScreen(),
+    !!! Do NOT create BlocProviders inside Screens
+    !!! All Cubits should be Global from here
 
-      },
+    ===============================================
+    */
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+      /*
+        TEAM NOTE:
+        When you finish a new Screen:
+        - Add its Route here following the same pattern
+      */
+          '/': (context) => const SplashScreen(),
+          '/on_boarding': (context) => const OnboardingScreen(),
+          '/signUp': (context) => const SignUpScreen(),
+          '/login': (context) => const LoginScreen(),
+          '/home': (context) => const HomeScreen(),
+        },
+      ),
     );
   }
 }
