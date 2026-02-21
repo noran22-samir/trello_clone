@@ -41,22 +41,13 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
               children: [
                 IconButton(
                   onPressed: () {},
-                  icon: FaIcon(
-                    FontAwesomeIcons.magnifyingGlass,
-                    color: Colors.grey[400],
-                    size: 19,
-                  ),
+                  icon: Image.asset("assets/images/search-outline.png")
                 ),
                 SizedBox(width: 2),
                 IconButton(
                   onPressed: () {},
-                  icon: FaIcon(
-                    FontAwesomeIcons.bell,
-                    color: Colors.grey[400],
-                    size: 20,
-                  ),
+                  icon: Image.asset("assets/images/search-outline.png")
                 ),
-
                 SizedBox(width: 8),
                 GestureDetector(
                   onTap: () {
