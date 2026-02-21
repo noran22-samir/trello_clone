@@ -10,7 +10,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _addHoverd = false;
-  int _selectedIndex = 0;
+  int _selectedIndex = 3;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -233,7 +233,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() => _selectedIndex = 3);
-                      Navigator.pushNamed(context, "/settings");
+                      Navigator.pushNamed(context, "/settings",arguments: 3);
                     },
                     constraints: const BoxConstraints(),
                     icon: Icon(
