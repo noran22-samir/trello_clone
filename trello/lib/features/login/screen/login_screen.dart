@@ -239,7 +239,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           if (_fromKey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Logged In Successful!')),
+                              SnackBar(content: Text('Logged In Successful!'),
+                              duration: Duration(seconds: 1),
+                              ),
                             );
                             Navigator.pushNamed(context, "/home");
                           }
