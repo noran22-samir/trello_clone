@@ -340,7 +340,6 @@ class _RecentScreenState extends State<RecentScreen> {
                   ),
                 ],
               ),
-              // comment
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
