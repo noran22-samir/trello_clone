@@ -22,6 +22,48 @@ class _FavScreenState extends State<FavScreen> {
     {"title": "Customer Support", "workspace": 4, "lists": 7, "cards": 30},
     {"title": "HR Onboarding", "workspace": 1, "lists": 3, "cards": 12},
   ];
+
+  void _showAddMenu (BuildContext context){
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(padding:   const EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.dashboard_customize,color: AppColors.blueMain_buttons,),
+                title: Text("Add Board",style: TextStyle(color: AppColors.black),),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Navigator.pushNamed(context, '/add_board');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.group_add,color: AppColors.blueMain_buttons,),
+                title: Text("Add Workspace",style: TextStyle(color: AppColors.black),),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Navigator.pushNamed(context, '/add_board');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.add_to_photos,color: AppColors.blueMain_buttons,),
+                title: Text("Add Card",style: TextStyle(color: AppColors.black),),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Navigator.pushNamed(context, '/add_board');
+                },
+              ),
+            ],
+          ),
+        );
+      }
+      );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,11 +271,7 @@ class _FavScreenState extends State<FavScreen> {
           setState(() => _addHoverd = false);
         },
         child: FloatingActionButton(
-          onPressed: () {
-            // setState(() {
-            //   _addHoverd = !_addHoverd;
-            // });
-          },
+          onPressed: () => _showAddMenu(context),
           backgroundColor: _addHoverd
               ? AppColors.blueDark_searchButton
               : AppColors.blueMain_buttons,
