@@ -130,7 +130,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: ClipRRect(
         child: BottomAppBar(
-          height: 68,
+          height: 89,
           elevation: 20,
           color: const Color.fromARGB(234, 243, 242, 242),
           notchMargin: 8,
