@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:trello/core/utils/app_colors.dart';
 
 class boardsUi extends StatelessWidget {
   const boardsUi({super.key});

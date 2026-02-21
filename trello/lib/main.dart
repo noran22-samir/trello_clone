@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:trello/features/home/screens/fav_screen.dart';
 import 'package:trello/features/home/screens/home_screen.dart';
+import 'package:trello/features/home/screens/personal_screen.dart';
+import 'package:trello/features/home/screens/recent_screen.dart';
 import 'package:trello/features/login/screen/login_screen.dart';
 import 'package:trello/features/settings/screens/settings_screen.dart';
 import 'package:trello/features/splash/screen/splash_screen.dart';
@@ -20,13 +23,14 @@ class TrelloApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => SplashScreen(),
-
         '/on_boarding': (context) => OnboardingScreen(),
-
         '/signUp': (context) => SignUpScreen(),
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
         '/settings': (context) => SettingsScreen(),
+        '/favScreen': (context) => FavScreen(),
+        '/recentScreen': (context) => RecentScreen(),
+        '/personalScreen': (context) => PersonalScreen(),
       },
     );
   }
