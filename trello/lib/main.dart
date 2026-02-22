@@ -21,6 +21,12 @@ import 'features/home/screens/personal_screen.dart';
 // Settings
 import 'features/settings/screens/settings_screen.dart';
 
+// Workspace
+import 'features/workspace/screens/workspaceUi.dart';
+
+// Cards
+import 'features/cards/screens/cardsUi.dart';
+
 void main() {
   runApp(const TrelloApp());
 }
@@ -32,9 +38,7 @@ class TrelloApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<SplashCubit>(
-          create: (_) => SplashCubit()..startSplash(),
-        ),
+        BlocProvider<SplashCubit>(create: (_) => SplashCubit()..startSplash()),
 
         /*
         ================== TEAM NOTE ==================
@@ -76,6 +80,12 @@ class TrelloApp extends StatelessWidget {
           '/favScreen': (context) => const FavScreen(),
           '/recentScreen': (context) => const RecentScreen(),
           '/personalScreen': (context) => const PersonalScreen(),
+
+          // Workspace
+          'workspaceScreen': (context) => const WorkspaceScreen(),
+
+          // Cards
+          'cardsScreen': (context) => const CardsScreen(),
         },
       ),
     );
