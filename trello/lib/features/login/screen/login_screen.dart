@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trello/core/utils/app_colors.dart';
+import 'package:trello/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +14,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
+
+  final AuthService _authService = AuthService();
 
   bool _obscurePassword = true;
 
@@ -91,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(
                             fontSize: 35,
                             fontWeight: FontWeight.bold,
-                            color:AppColors.blueDark_searchButton,
+                            color: AppColors.blueDark_searchButton,
                           ),
                         ),
                       ),
@@ -134,7 +137,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hint: Text(
                                   "e-mail",
                                   style: TextStyle(
-                                    color: const Color.fromARGB(102, 86, 85, 85),
+                                    color: const Color.fromARGB(
+                                      102,
+                                      86,
+                                      85,
+                                      85,
+                                    ),
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FontStyle.italic,
                                   ),
@@ -175,13 +183,23 @@ class _LoginScreenState extends State<LoginScreen> {
                               validator: _validatePassword,
                               decoration: InputDecoration(
                                 suffixIcon: Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                  padding: const EdgeInsets.fromLTRB(
+                                    0,
+                                    0,
+                                    10,
+                                    0,
+                                  ),
                                   child: IconButton(
                                     icon: Icon(
                                       _obscurePassword
                                           ? Icons.visibility_off
                                           : Icons.visibility,
-                                      color: const Color.fromARGB(102, 86, 85, 85),
+                                      color: const Color.fromARGB(
+                                        102,
+                                        86,
+                                        85,
+                                        85,
+                                      ),
                                       size: 20,
                                     ),
                                     onPressed: () {
@@ -196,7 +214,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hint: Text(
                                   "password",
                                   style: TextStyle(
-                                    color: const Color.fromARGB(102, 86, 85, 85),
+                                    color: const Color.fromARGB(
+                                      102,
+                                      86,
+                                      85,
+                                      85,
+                                    ),
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FontStyle.italic,
                                   ),
@@ -229,7 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: _isSignHoverd
                                   ? AppColors.blueMain_buttons
-                                  :AppColors.blueDark_searchButton,
+                                  : AppColors.blueDark_searchButton,
                               padding: EdgeInsets.symmetric(
                                 horizontal: 50,
                                 vertical: 9,
@@ -238,14 +261,32 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_fromKey.currentState!.validate()) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Logged In Successful!'),
-                                  duration: Duration(seconds: 1),
-                                  ),
+                                bool isSuccess = await _authService.login(
+                                  _emailController.text,
+                                  _passwordController.text,
                                 );
-                                Navigator.pushNamed(context, "/home");
+                                if (isSuccess) {
+                                  _authService.setLoggedIn(true);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Logged In Successful!'),
+                                      duration: Duration(seconds: 1),
+                                    ),
+                                  );
+                                  Navigator.pushNamed(context, "/home");
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Invalid email or password!',
+                                      ),
+                                      backgroundColor: Colors.red,
+                                      duration: Duration(seconds: 1),
+                                    ),
+                                  );
+                                }
                               }
                             },
                             child: Text(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trello/core/utils/app_colors.dart';
+import 'package:trello/services/auth_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -164,7 +165,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ListTile(
               title: const Text("Log Out", style: TextStyle(color: Colors.red)),
               contentPadding: EdgeInsets.zero,
-              onTap: () {},
+              onTap: () async {
+                await AuthService().logout();
+                if (context.mounted) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/login',
+                    (route) => false,
+                  );
+                }
+              },
             ),
           ],
         ),

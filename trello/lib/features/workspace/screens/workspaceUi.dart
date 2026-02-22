@@ -1,7 +1,6 @@
 //workspace
 import 'package:flutter/material.dart';
 import '../../../core/utils/app_colors.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WorkspaceScreen extends StatefulWidget {
@@ -13,7 +12,7 @@ class WorkspaceScreen extends StatefulWidget {
 
 class _WorkspaceScreenState extends State<WorkspaceScreen> {
   bool _addHoverd = false;
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   void _showAddMenu(BuildContext context) {
     showModalBottomSheet(
@@ -79,21 +78,20 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+    appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Padding(
-          padding: const EdgeInsets.only(top: 9, left: 6),
+          padding: const EdgeInsets.only(top: 9),
           child: Row(
             children: [
-              Image.asset('assets/images/logo_icon.png', width: 33, height: 33),
+              Image.asset("assets/images/logo_icon.png", width: 33, height: 33),
               SizedBox(width: 5),
-              Text(
-                "Workspaces",
-                style: GoogleFonts.roboto(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                  ),
+              const Text(
+                "Workspace",
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.black,
                 ),
               ),
             ],
@@ -101,29 +99,28 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(top: 9, right: 6),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Image.asset("assets/images/search-outline.png"),
-                ),
-                SizedBox(width: 2),
-                IconButton(
-                  onPressed: () {},
-                  icon: Image.asset("assets/images/search-outline.png"),
-                ),
-                SizedBox(width: 8),
-                GestureDetector(
-                  onTap: () {
-                    print("KK");
-                  },
-                  child: Image.asset('assets/images/User.png'),
-                ),
-              ],
+            padding: const EdgeInsets.only(top: 9),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.search,
+                color: AppColors.black.withOpacity(0.4),
+                size: 20,
+              ),
             ),
           ),
-          Divider(),
+          Padding(
+            padding: const EdgeInsets.only(top: 9),
+            child: IconButton(
+              onPressed: () {},
+              icon: CircleAvatar(
+                radius: 17,
+                backgroundImage: NetworkImage(
+                  "https://avatars.githubusercontent.com/u/110792649?v=4",
+                ),
+              ),
+            ),
+          ),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
@@ -145,7 +142,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: Text("show all", style: TextStyle(color: Colors.blue)),
+                  child: Text("show all", style: TextStyle(color: AppColors.blueMain_buttons)),
                 ),
               ],
             ),
@@ -327,7 +324,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: Text("show all", style: TextStyle(color: Colors.blue)),
+                  child: Text("show all", style: TextStyle(color: AppColors.blueMain_buttons)),
                 ),
               ],
             ),
@@ -560,7 +557,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: Text("show all", style: TextStyle(color: Colors.blue)),
+                  child: Text("show all", style: TextStyle(color: AppColors.blueMain_buttons)),
                 ),
               ],
             ),
@@ -849,7 +846,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() => _selectedIndex = 1);
-                      Navigator.pushNamed(context, "/workspaceScreen");
+                      Navigator.pushNamed(context, "/workspaceScreen", arguments: 1);
                     },
                     constraints: const BoxConstraints(),
                     icon: Icon(
