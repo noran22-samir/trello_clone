@@ -232,6 +232,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() => _selectedIndex = 1);
+                      Navigator.pushNamed(context, "/workspaceScreen");
                     },
                     constraints: const BoxConstraints(),
                     icon: Icon(
@@ -262,6 +263,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() => _selectedIndex = 2);
+                      Navigator.pushNamed(context, "/cardsScreen");
                     },
                     constraints: const BoxConstraints(),
                     icon: Icon(
