@@ -59,10 +59,10 @@ class TrelloApp extends StatelessWidget {
 
         When you finish a Cubit for any Feature:
         1️⃣ Add its BlocProvider here
-           Example:
-           BlocProvider<AuthCubit>(
-             create: (_) => AuthCubit(),
-           ),
+            Example:
+            BlocProvider<AuthCubit>(
+              create: (_) => AuthCubit(),
+            ),
 
         2️⃣ Add the corresponding Screen Route below in `routes`
 
