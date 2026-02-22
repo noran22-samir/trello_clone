@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trello/core/utils/app_colors.dart';
+import 'package:trello/services/auth_service.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -15,6 +16,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   final TextEditingController _confirmPassController = TextEditingController();
+
+  final AuthService _authService = AuthService();
 
   bool _obscurePassword = true;
 
@@ -149,7 +152,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 hint: Text(
                                   "e-mail",
                                   style: TextStyle(
-                                    color: const Color.fromARGB(102, 86, 85, 85),
+                                    color: const Color.fromARGB(
+                                      102,
+                                      86,
+                                      85,
+                                      85,
+                                    ),
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FontStyle.italic,
                                   ),
@@ -190,13 +198,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               validator: _validatePassword,
                               decoration: InputDecoration(
                                 suffixIcon: Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                  padding: const EdgeInsets.fromLTRB(
+                                    0,
+                                    0,
+                                    10,
+                                    0,
+                                  ),
                                   child: IconButton(
                                     icon: Icon(
                                       _obscurePassword
                                           ? Icons.visibility_off
                                           : Icons.visibility,
-                                      color: const Color.fromARGB(102, 86, 85, 85),
+                                      color: const Color.fromARGB(
+                                        102,
+                                        86,
+                                        85,
+                                        85,
+                                      ),
                                       size: 20,
                                     ),
                                     onPressed: () {
@@ -211,7 +229,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 hint: Text(
                                   "password",
                                   style: TextStyle(
-                                    color: const Color.fromARGB(102, 86, 85, 85),
+                                    color: const Color.fromARGB(
+                                      102,
+                                      86,
+                                      85,
+                                      85,
+                                    ),
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FontStyle.italic,
                                   ),
@@ -255,18 +278,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               decoration: InputDecoration(
                                 suffixIcon: Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                  padding: const EdgeInsets.fromLTRB(
+                                    0,
+                                    0,
+                                    10,
+                                    0,
+                                  ),
                                   child: IconButton(
                                     icon: Icon(
                                       _obscureConfirmPass
                                           ? Icons.visibility_off
                                           : Icons.visibility,
-                                      color: const Color.fromARGB(102, 86, 85, 85),
+                                      color: const Color.fromARGB(
+                                        102,
+                                        86,
+                                        85,
+                                        85,
+                                      ),
                                       size: 20,
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        _obscureConfirmPass = !_obscureConfirmPass;
+                                        _obscureConfirmPass =
+                                            !_obscureConfirmPass;
                                       });
                                     },
                                   ),
@@ -276,7 +310,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 hint: Text(
                                   "confirm password",
                                   style: TextStyle(
-                                    color: const Color.fromARGB(102, 86, 85, 85),
+                                    color: const Color.fromARGB(
+                                      102,
+                                      86,
+                                      85,
+                                      85,
+                                    ),
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FontStyle.italic,
                                   ),
@@ -308,8 +347,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: _isSignHoverd
-                                  ?  AppColors.blueMain_buttons
-                                  :  AppColors.blueDark_searchButton,
+                                  ? AppColors.blueMain_buttons
+                                  : AppColors.blueDark_searchButton,
                               padding: EdgeInsets.symmetric(
                                 horizontal: 50,
                                 vertical: 9,
@@ -318,14 +357,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_fromKey.currentState!.validate()) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Sign Up Successful!'),
-                                  duration: Duration(seconds: 1),
-                                  ),
+                                String? error = await _authService.register(
+                                  _emailController.text,
+                                  _passwordController.text,
                                 );
-                                Navigator.pushNamed(context, "/login");
+                                if (error == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Sign Up Successful!'),
+                                      duration: Duration(seconds: 1),
+                                    ),
+                                  );
+                                  Navigator.pushNamed(context, "/login");
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(error),
+                                      backgroundColor: Colors.red,
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                }
                               }
                             },
                             child: Text(
@@ -372,7 +426,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 "Login",
                                 style: TextStyle(
                                   color: _isLoginHoverd
-                                      ?  AppColors.blueMain_buttons
+                                      ? AppColors.blueMain_buttons
                                       : AppColors.blueDark_searchButton,
                                   fontWeight: FontWeight.w700,
                                   fontStyle: FontStyle.italic,

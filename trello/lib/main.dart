@@ -11,6 +11,8 @@ import 'features/on_boading/screens/onBoarding.dart';
 // Auth
 import 'features/login/screen/login_screen.dart';
 import 'features/signUp/screen/sign_up_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:trello/services/auth_service.dart';
 
 // Home & related screens
 import 'features/home/screens/home_screen.dart';
@@ -27,13 +29,25 @@ import 'features/workspace/screens/workspaceUi.dart';
 // Cards
 import 'features/cards/screens/cardsUi.dart';
 
-void main() {
-  runApp(const TrelloApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  try {
+    await Hive.openBox('users');
+    await Hive.openBox('settings');
+    print("Hive boxes opened successfully");
+  } catch (e) {
+    print("Error opening Hive boxes: $e");
+  }
+
+  final authService = AuthService();
+  bool isLoggedIn = authService.checkLogin();
+  runApp(TrelloApp(isLoggedIn: isLoggedIn));
 }
-
 class TrelloApp extends StatelessWidget {
-  const TrelloApp({super.key});
-
+  final bool isLoggedIn;
+  const TrelloApp({super.key, required this.isLoggedIn});
+  
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -82,10 +96,10 @@ class TrelloApp extends StatelessWidget {
           '/personalScreen': (context) => const PersonalScreen(),
 
           // Workspace
-          'workspaceScreen': (context) => const WorkspaceScreen(),
+          '/workspaceScreen': (context) => const WorkspaceScreen(),
 
           // Cards
-          'cardsScreen': (context) => const CardsScreen(),
+          '/cardsScreen': (context) => const CardsScreen(),
         },
       ),
     );

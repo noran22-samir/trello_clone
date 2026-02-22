@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trello/features/on_boading/screens/onBoarding.dart';
 import '../cubit/splash_cubit.dart';
 import '../cubit/splash_state.dart';
 import 'package:trello/core/utils/app_colors.dart';
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -31,20 +29,18 @@ class _SplashScreenState extends State<SplashScreen>
     _fadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
-    );
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
     _scaleAnimation = Tween<double>(
       begin: 0.8,
       end: 1.0,
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     _controller.forward();
 
-    context.read<SplashCubit>().startSplash();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<SplashCubit>().startSplash();
+    });
   }
 
   @override
@@ -57,11 +53,11 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
-        if (state is SplashFinished) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const OnboardingScreen()),
-          );
+        if (state is NavigateToHome) {
+          Navigator.pushReplacementNamed(context, '/home');
+        }
+        else if (state is NavigateToOnboarding) {
+          Navigator.pushReplacementNamed(context, '/on_boarding');
         }
       },
       child: Scaffold(
@@ -75,16 +71,13 @@ class _SplashScreenState extends State<SplashScreen>
                     opacity: _fadeAnimation,
                     child: ScaleTransition(
                       scale: _scaleAnimation,
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                        width: 180,
-                      ),
+                      child: Image.asset('assets/images/logo.png', width: 180),
                     ),
                   ),
                   const SizedBox(height: 50),
                   const CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    color: AppColors.blueMain_buttons ,
+                    color: AppColors.blueMain_buttons,
                   ),
                 ],
               ),

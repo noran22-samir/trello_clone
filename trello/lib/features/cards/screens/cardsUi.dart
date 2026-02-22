@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import '../../../core/utils/app_colors.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CardsScreen extends StatefulWidget {
@@ -14,7 +13,7 @@ class CardsScreen extends StatefulWidget {
 
 class _CardsScreenState extends State<CardsScreen> {
   bool _addHoverd = false;
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   void _showAddMenu(BuildContext context) {
     showModalBottomSheet(
@@ -83,18 +82,17 @@ class _CardsScreenState extends State<CardsScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Padding(
-          padding: const EdgeInsets.only(top: 9, left: 6),
+          padding: const EdgeInsets.only(top: 9),
           child: Row(
             children: [
-              Image.asset('assets/images/logo_icon.png', width: 33, height: 33),
+              Image.asset("assets/images/logo_icon.png", width: 33, height: 33),
               SizedBox(width: 5),
-              Text(
+              const Text(
                 "My Cards",
-                style: GoogleFonts.roboto(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                  ),
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.black,
                 ),
               ),
             ],
@@ -102,38 +100,46 @@ class _CardsScreenState extends State<CardsScreen> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(top: 9, right: 6),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Image.asset("assets/images/Filter_list.png"),
-                ),
-
-                SizedBox(width: 2),
-                IconButton(
-                  onPressed: () {},
-                  icon: Image.asset("assets/images/search-outline.png"),
-                ),
-
-                SizedBox(width: 8),
-                GestureDetector(
-                  onTap: () {
-                    print("KK");
-                  },
-                  child: Image.asset('assets/images/User.png'),
-                ),
-              ],
+            padding: const EdgeInsets.only(top: 9),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.filter_list,
+                color: AppColors.black.withOpacity(0.4),
+                size: 20,
+              ),
             ),
           ),
-          Divider(),
+          Padding(
+            padding: const EdgeInsets.only(top: 9),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.search,
+                color: AppColors.black.withOpacity(0.4),
+                size: 20,
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.only(top: 9),
+            child: IconButton(
+              onPressed: () {},
+              icon: CircleAvatar(
+                radius: 17,
+                backgroundImage: NetworkImage(
+                  "https://avatars.githubusercontent.com/u/110792649?v=4",
+                ),
+              ),
+            ),
+          ),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(color: Colors.grey[300], height: 1),
         ),
       ),
-
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25),
         child: Column(
@@ -151,7 +157,10 @@ class _CardsScreenState extends State<CardsScreen> {
                 Spacer(),
                 TextButton(
                   onPressed: () {},
-                  child: Text("show all", style: TextStyle(color: Colors.blue)),
+                  child: Text(
+                    "show all",
+                    style: TextStyle(color: AppColors.blueMain_buttons),
+                  ),
                 ),
               ],
             ),
@@ -338,7 +347,10 @@ class _CardsScreenState extends State<CardsScreen> {
                 Spacer(),
                 TextButton(
                   onPressed: () {},
-                  child: Text("show all", style: TextStyle(color: Colors.blue)),
+                  child: Text(
+                    "show all",
+                    style: TextStyle(color: AppColors.blueMain_buttons),
+                  ),
                 ),
               ],
             ),
@@ -609,7 +621,7 @@ class _CardsScreenState extends State<CardsScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() => _selectedIndex = 2);
-                      Navigator.pushNamed(context, "/cardsScreen");
+                      Navigator.pushNamed(context, "/cardsScreen", arguments: 2);
                     },
                     constraints: const BoxConstraints(),
                     icon: Icon(
