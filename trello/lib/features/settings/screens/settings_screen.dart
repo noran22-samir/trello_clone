@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trello/core/utils/app_colors.dart';
+import 'package:trello/services/auth_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -10,7 +11,69 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _addHoverd = false;
-  int _selectedIndex = 0;
+  int _selectedIndex = 3;
+
+  void _showAddMenu(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(
+                  Icons.dashboard_customize,
+                  color: AppColors.blueMain_buttons,
+                ),
+                title: Text(
+                  "Add Board",
+                  style: TextStyle(color: AppColors.black),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Navigator.pushNamed(context, '/add_board');
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.group_add,
+                  color: AppColors.blueMain_buttons,
+                ),
+                title: Text(
+                  "Add Workspace",
+                  style: TextStyle(color: AppColors.black),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Navigator.pushNamed(context, '/add_board');
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.add_to_photos,
+                  color: AppColors.blueMain_buttons,
+                ),
+                title: Text(
+                  "Add Card",
+                  style: TextStyle(color: AppColors.black),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Navigator.pushNamed(context, '/add_board');
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +165,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ListTile(
               title: const Text("Log Out", style: TextStyle(color: Colors.red)),
               contentPadding: EdgeInsets.zero,
-              onTap: () {},
+              onTap: () async {
+                await AuthService().logout();
+                if (context.mounted) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/login',
+                    (route) => false,
+                  );
+                }
+              },
             ),
           ],
         ),
@@ -115,11 +187,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           setState(() => _addHoverd = false);
         },
         child: FloatingActionButton(
-          onPressed: () {
-            // setState(() {
-            //   _addHoverd = !_addHoverd;
-            // });
-          },
+          onPressed: () => _showAddMenu(context),
           backgroundColor: _addHoverd
               ? AppColors.blueDark_searchButton
               : AppColors.blueMain_buttons,
@@ -174,6 +242,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() => _selectedIndex = 1);
+                      Navigator.pushNamed(context, "/workspaceScreen");
                     },
                     constraints: const BoxConstraints(),
                     icon: Icon(
@@ -204,6 +273,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() => _selectedIndex = 2);
+                      Navigator.pushNamed(context, "/cardsScreen");
                     },
                     constraints: const BoxConstraints(),
                     icon: Icon(
@@ -233,7 +303,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() => _selectedIndex = 3);
-                      Navigator.pushNamed(context, "/settings");
+                      Navigator.pushNamed(context, "/settings", arguments: 3);
                     },
                     constraints: const BoxConstraints(),
                     icon: Icon(
