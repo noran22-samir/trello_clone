@@ -29,6 +29,9 @@ import 'features/workspace/screens/workspaceUi.dart';
 // Cards
 import 'features/cards/screens/cardsUi.dart';
 
+// Add Board
+import 'features/add_new/screens/addBoard.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -55,19 +58,16 @@ class TrelloApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<SplashCubit>(create: (_) => SplashCubit()..startSplash()),
+        BlocProvider<SplashCubit>(
+          create: (_) => SplashCubit()..startSplash(),
+        ),
 
         /*
         ================== TEAM NOTE ==================
 
         When you finish a Cubit for any Feature:
         1️⃣ Add its BlocProvider here
-            Example:
-            BlocProvider<AuthCubit>(
-              create: (_) => AuthCubit(),
-            ),
-
-        2️⃣ Add the corresponding Screen Route below in `routes`
+        2️⃣ Add the corresponding Screen Route below
 
         ❗ Do NOT create BlocProviders inside Screens
         ❗ All Cubits should be global from here
@@ -98,6 +98,9 @@ class TrelloApp extends StatelessWidget {
 
           // Cards
           '/cardsScreen': (context) => const CardsScreen(),
+
+          // Add Board
+          '/addBoard': (context) => const AddBoardScreen(),
         },
       ),
     );
