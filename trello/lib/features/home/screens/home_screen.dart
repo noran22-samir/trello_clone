@@ -24,12 +24,20 @@ class _HomeScreenState extends State<HomeScreen> {
   void _showAddMenu(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
+        TextEditingController workspaceController = TextEditingController();
+
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            top: 20,
+            left: 20,
+            right: 20,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -44,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 onTap: () {
                   Navigator.pop(context);
-                  // Navigator.pushNamed(context, '/add_board');
+                  Navigator.pushNamed(context, '/addBoard');
                 },
               ),
               ListTile(
@@ -57,8 +65,73 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(color: AppColors.black),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
-                  // Navigator.pushNamed(context, '/add_board');
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                    ),
+                    builder: (context) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                          top: 20,
+                          left: 20,
+                          right: 20,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Create New Workspace",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.black,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            TextField(
+                              controller: workspaceController,
+                              decoration: InputDecoration(
+                                labelText: "Workspace name",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 15),
+                            ElevatedButton(
+                              onPressed: () {
+                                if (workspaceController.text.isNotEmpty) {
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "Workspace '${workspaceController.text}' created!",
+                                      ),
+                                    ),
+                                  );
+                                  workspaceController.clear();
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.blueMain_buttons,
+                                minimumSize: Size(double.infinity, 50),
+                              ),
+                              child: Text(
+                                "Create",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
               ListTile(
@@ -72,7 +145,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 onTap: () {
                   Navigator.pop(context);
-                  // Navigator.pushNamed(context, '/add_board');
+                  Navigator.pushNamed(
+                    context,
+                    '/trello/lib/features/add_new/screens/addCard.dart',
+                  );
                 },
               ),
             ],
