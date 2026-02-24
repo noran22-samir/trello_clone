@@ -1,34 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 // Splash
 import 'features/splash/screen/splash_screen.dart';
 import 'features/splash/cubit/splash_cubit.dart';
-
 // Onboarding
 import 'features/on_boading/screens/onBoarding.dart';
-
 // Auth
 import 'features/login/screen/login_screen.dart';
 import 'features/signUp/screen/sign_up_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:trello/services/auth_service.dart';
-
 // Home & related screens
 import 'features/home/screens/home_screen.dart';
 import 'features/home/screens/fav_screen.dart';
 import 'features/home/screens/recent_screen.dart';
 import 'features/home/screens/personal_screen.dart';
-
 // Settings
 import 'features/settings/screens/settings_screen.dart';
-
 // Workspace
 import 'features/workspace/screens/workspaceUi.dart';
-
 // Cards
 import 'features/cards/screens/cardsUi.dart';
-
+//add board
+import 'features/add_new/screens/addBoard.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -100,6 +94,8 @@ class TrelloApp extends StatelessWidget {
 
           // Cards
           '/cardsScreen': (context) => const CardsScreen(),
+          '/addBoard': (context) => const AddBoardScreen(),
+          // '/addCard': (context) => const (),
         },
       ),
     );
