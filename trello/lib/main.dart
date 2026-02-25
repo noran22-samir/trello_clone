@@ -32,6 +32,9 @@ import 'features/cards/screens/cardsUi.dart';
 // Add Board
 import 'features/add_new/screens/addBoard.dart';
 
+// Add card
+import 'features/add_new/screens/addCard.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -101,6 +104,8 @@ class TrelloApp extends StatelessWidget {
 
           // Add Board
           '/addBoard': (context) => const AddBoardScreen(),
+          // Add card
+          '/addCard': (context) => const AddCardScreen(),
         },
       ),
     );

@@ -11,6 +11,20 @@ class AppColors {
   static const Color lightPurple_card = Color(0xFFEAE6FF); 
   static const Color skyBlue_card = Color(0xFFDEEBFF); 
   static const Color softGrey_board = Color(0xFFF4F5F7); 
-  static const Color white = Color(0xFFFFFFFF); 
-  static const Color black = Color(0xFF000000); 
+   // Backgrounds & Surfaces
+  static const Color background = Color(0xFFF4F5F7); // بدل softGreyBoard
+  static const Color surface = Color(0xFFFFFFFF);    // للـ text fields
+
+  // Borders & Hint
+  static const Color border = Color(0xFFD1D5DB);
+  static const Color hint = Color(0xFF6B7280);
+
+  // Text
+  static const Color text = Color(0xFF1F2937);
+
+  // Basic
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color black = Color(0xFF000000);
+
 }
+
