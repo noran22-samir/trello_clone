@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trello/core/utils/app_colors.dart';
+import 'package:trello/core/widget/custom_bottom_bar.dart';
+import 'package:trello/core/widget/custom_floating_button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,7 +12,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _addHoverd = false;
-  int _selectedIndex = 0;
 
   final List<Map<String, dynamic>> _data = [
     {"title": "Project Alpha", "workspace": 2, "lists": 5, "cards": 20},
@@ -21,142 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
     {"title": "Customer Support", "workspace": 4, "lists": 7, "cards": 30},
     {"title": "HR Onboarding", "workspace": 1, "lists": 3, "cards": 12},
   ];
-  void _showAddMenu(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        TextEditingController workspaceController = TextEditingController();
-
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-            top: 20,
-            left: 20,
-            right: 20,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: Icon(
-                  Icons.dashboard_customize,
-                  color: AppColors.blueMain_buttons,
-                ),
-                title: Text(
-                  "Add Board",
-                  style: TextStyle(color: AppColors.black),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/addBoard');
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.group_add,
-                  color: AppColors.blueMain_buttons,
-                ),
-                title: Text(
-                  "Add Workspace",
-                  style: TextStyle(color: AppColors.black),
-                ),
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(20),
-                      ),
-                    ),
-                    builder: (context) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom,
-                          top: 20,
-                          left: 20,
-                          right: 20,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Create New Workspace",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.black,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextField(
-                              controller: workspaceController,
-                              decoration: InputDecoration(
-                                labelText: "Workspace name",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 15),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (workspaceController.text.isNotEmpty) {
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        "Workspace '${workspaceController.text}' created!",
-                                      ),
-                                    ),
-                                  );
-                                  workspaceController.clear();
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.blueMain_buttons,
-                                minimumSize: Size(double.infinity, 50),
-                              ),
-                              child: Text(
-                                "Create",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.add_to_photos,
-                  color: AppColors.blueMain_buttons,
-                ),
-                title: Text(
-                  "Add Card",
-                  style: TextStyle(color: AppColors.black),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(
-                    context,
-                    '/addCard',
-                  );
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -781,157 +646,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      floatingActionButton: MouseRegion(
-        onEnter: (_) {
-          setState(() => _addHoverd = true);
-        },
-        onExit: (_) {
-          setState(() => _addHoverd = false);
-        },
-        child: FloatingActionButton(
-          onPressed: () => _showAddMenu(context),
-          backgroundColor: _addHoverd
-              ? AppColors.blueDark_searchButton
-              : AppColors.blueMain_buttons,
-          shape: const CircleBorder(),
-          child: const Icon(Icons.add, color: Colors.white, size: 30),
-        ),
-      ),
+      floatingActionButton: const CustomFloatingButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: ClipRRect(
-        child: BottomAppBar(
-          height: 89,
-          elevation: 20,
-          color: const Color.fromARGB(234, 243, 242, 242),
-          notchMargin: 8,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      setState(() => _selectedIndex = 0);
-                      Navigator.pushNamed(context, "/home");
-                    },
-                    constraints: const BoxConstraints(),
-                    icon: Icon(
-                      Icons.home_rounded,
-                      size: 24,
-                      color: _selectedIndex == 0
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                  Text(
-                    "Boards",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: _selectedIndex == 0
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      setState(() => _selectedIndex = 1);
-                      Navigator.pushNamed(context, "/workspaceScreen");
-                    },
-                    constraints: const BoxConstraints(),
-                    icon: Icon(
-                      Icons.people_outline,
-                      size: 24,
-                      color: _selectedIndex == 1
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                  Text(
-                    "Workspaces",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: _selectedIndex == 1
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(width: 40),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      setState(() => _selectedIndex = 2);
-                      Navigator.pushNamed(context, "/cardsScreen");
-                    },
-                    constraints: const BoxConstraints(),
-                    icon: Icon(
-                      Icons.chat_bubble_outline_rounded,
-                      size: 24,
-                      color: _selectedIndex == 2
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                  Text(
-                    "Cards",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: _selectedIndex == 2
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      setState(() => _selectedIndex = 3);
-                      Navigator.pushNamed(context, "/settings");
-                    },
-                    constraints: const BoxConstraints(),
-                    icon: Icon(
-                      Icons.settings,
-                      size: 24,
-                      color: _selectedIndex == 3
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                  Text(
-                    "Settings",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: _selectedIndex == 3
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: const CustomBottomBar(selectedIndex: 0,),
     );
   }
 }
