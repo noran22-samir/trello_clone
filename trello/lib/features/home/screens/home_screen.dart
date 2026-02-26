@@ -99,19 +99,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Spacer(),
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/favScreen');
-                    },
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "show all",
-                        style: TextStyle(color: AppColors.blueMain_buttons),
-                      ),
-                    ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/favScreen');
+                  },
+                  child: Text(
+                    "show all",
+                    style: TextStyle(color: AppColors.blueMain_buttons),
                   ),
                 ),
               ],
@@ -278,19 +272,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Spacer(),
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/recentScreen');
-                    },
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "show all",
-                        style: TextStyle(color: AppColors.blueMain_buttons),
-                      ),
-                    ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/recentScreen');
+                  },
+                  child: Text(
+                    "show all",
+                    style: TextStyle(color: AppColors.blueMain_buttons),
                   ),
                 ),
               ],
@@ -457,19 +445,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Spacer(),
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/personalScreen');
-                    },
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "show all",
-                        style: TextStyle(color: AppColors.blueMain_buttons),
-                      ),
-                    ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/personalScreen');
+                  },
+                  child: Text(
+                    "show all",
+                    style: TextStyle(color: AppColors.blueMain_buttons),
                   ),
                 ),
               ],
