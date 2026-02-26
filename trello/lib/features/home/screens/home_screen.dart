@@ -11,8 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _addHoverd = false;
-
   final List<Map<String, dynamic>> _data = [
     {"title": "Project Alpha", "workspace": 2, "lists": 5, "cards": 20},
     {"title": "Marketing Campaign", "workspace": 1, "lists": 3, "cards": 15},
@@ -103,22 +101,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 Spacer(),
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
-                  onEnter: (_) {
-                    setState(() => _addHoverd = true);
-                  },
-                  onExit: (_) {
-                    setState(() => _addHoverd = false);
-                  },
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, '/favScreen');
                     },
-                    child: Text(
-                      "Show all",
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.blueMain_buttons,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "show all",
+                        style: TextStyle(color: AppColors.blueMain_buttons),
                       ),
                     ),
                   ),
@@ -289,22 +280,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 Spacer(),
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
-                  onEnter: (_) {
-                    setState(() => _addHoverd = true);
-                  },
-                  onExit: (_) {
-                    setState(() => _addHoverd = false);
-                  },
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, '/recentScreen');
                     },
-                    child: Text(
-                      "Show all",
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.blueMain_buttons,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "show all",
+                        style: TextStyle(color: AppColors.blueMain_buttons),
                       ),
                     ),
                   ),
@@ -475,22 +459,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 Spacer(),
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
-                  onEnter: (_) {
-                    setState(() => _addHoverd = true);
-                  },
-                  onExit: (_) {
-                    setState(() => _addHoverd = false);
-                  },
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, '/personalScreen');
                     },
-                    child: Text(
-                      "Show all",
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.blueMain_buttons,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "show all",
+                        style: TextStyle(color: AppColors.blueMain_buttons),
                       ),
                     ),
                   ),
@@ -648,7 +625,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: const CustomFloatingButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const CustomBottomBar(selectedIndex: 0,),
+      bottomNavigationBar: const CustomBottomBar(selectedIndex: 0),
     );
   }
 }
