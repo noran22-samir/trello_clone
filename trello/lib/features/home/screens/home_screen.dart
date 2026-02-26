@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pop(context);
                   Navigator.pushNamed(
                     context,
-                    '/trello/lib/features/add_new/screens/addCard.dart',
+                    '/addCard',
                   );
                 },
               ),

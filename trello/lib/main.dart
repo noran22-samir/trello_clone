@@ -1,31 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:trello/services/auth_service.dart';
+
 // Splash
 import 'features/splash/screen/splash_screen.dart';
 import 'features/splash/cubit/splash_cubit.dart';
+
 // Onboarding
 import 'features/on_boading/screens/onBoarding.dart';
+
 // Auth
 import 'features/login/screen/login_screen.dart';
 import 'features/signUp/screen/sign_up_screen.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:trello/services/auth_service.dart';
+
 // Home & related screens
 import 'features/home/screens/home_screen.dart';
 import 'features/home/screens/fav_screen.dart';
 import 'features/home/screens/recent_screen.dart';
 import 'features/home/screens/personal_screen.dart';
+
 // Settings
 import 'features/settings/screens/settings_screen.dart';
+
 // Workspace
 import 'features/workspace/screens/workspaceUi.dart';
+
 // Cards
 import 'features/cards/screens/cardsUi.dart';
-//add board
+
+// Add Board
 import 'features/add_new/screens/addBoard.dart';
-void main() async{
+
+// Add card
+import 'features/add_new/screens/addCard.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+
   try {
     await Hive.openBox('users');
     await Hive.openBox('settings');
@@ -36,29 +49,28 @@ void main() async{
 
   final authService = AuthService();
   bool isLoggedIn = authService.checkLogin();
+
   runApp(TrelloApp(isLoggedIn: isLoggedIn));
 }
+
 class TrelloApp extends StatelessWidget {
   final bool isLoggedIn;
   const TrelloApp({super.key, required this.isLoggedIn});
-  
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<SplashCubit>(create: (_) => SplashCubit()..startSplash()),
+        BlocProvider<SplashCubit>(
+          create: (_) => SplashCubit()..startSplash(),
+        ),
 
         /*
         ================== TEAM NOTE ==================
 
         When you finish a Cubit for any Feature:
         1️⃣ Add its BlocProvider here
-            Example:
-            BlocProvider<AuthCubit>(
-              create: (_) => AuthCubit(),
-            ),
-
-        2️⃣ Add the corresponding Screen Route below in `routes`
+        2️⃣ Add the corresponding Screen Route below
 
         ❗ Do NOT create BlocProviders inside Screens
         ❗ All Cubits should be global from here
@@ -70,11 +82,6 @@ class TrelloApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
-          /*
-            TEAM NOTE:
-            When you finish a new Screen:
-            - Add its Route here following the same pattern
-          */
           '/': (context) => const SplashScreen(),
           '/on_boarding': (context) => const OnboardingScreen(),
 
@@ -94,8 +101,11 @@ class TrelloApp extends StatelessWidget {
 
           // Cards
           '/cardsScreen': (context) => const CardsScreen(),
+
+          // Add Board
           '/addBoard': (context) => const AddBoardScreen(),
-          // '/addCard': (context) => const (),
+          // Add card
+          '/addCard': (context) => const AddCardScreen(),
         },
       ),
     );

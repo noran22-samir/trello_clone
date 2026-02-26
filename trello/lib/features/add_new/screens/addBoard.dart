@@ -20,23 +20,39 @@ class _AddBoardScreenState extends State<AddBoardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.arrow_back, color: AppColors.white),
+        ),
         backgroundColor: AppColors.blueMain_buttons,
-        title: const Text("New Boards"),
+        title: const Text(
+          "New Boards",
+          style: TextStyle(color: AppColors.white),
+        ),
         actions: [
           TextButton(
             onPressed: () {
               if (_boardNameController.text.isNotEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Board '${_boardNameController.text}' created!")),
+                  SnackBar(
+                    content: Text(
+                      "Board '${_boardNameController.text}' created!",
+                    ),
+                  ),
                 );
                 Navigator.pop(context);
               }
             },
             child: const Text(
               "SAVE",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          )
+          ),
         ],
       ),
       body: Padding(
@@ -72,7 +88,6 @@ class _AddBoardScreenState extends State<AddBoardScreen> {
                 });
               },
               decoration: InputDecoration(
-                
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -90,10 +105,7 @@ class _AddBoardScreenState extends State<AddBoardScreen> {
             DropdownButtonFormField<String>(
               initialValue: selectedVisibility,
               items: visibilityOptions.map((vis) {
-                return DropdownMenuItem(
-                  value: vis,
-                  child: Text(vis),
-                );
+                return DropdownMenuItem(value: vis, child: Text(vis));
               }).toList(),
               onChanged: (value) {
                 setState(() {
