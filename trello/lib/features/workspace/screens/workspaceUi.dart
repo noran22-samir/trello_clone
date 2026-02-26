@@ -1,5 +1,7 @@
 //workspace
 import 'package:flutter/material.dart';
+import 'package:trello/core/widget/custom_bottom_bar.dart';
+import 'package:trello/core/widget/custom_floating_button.dart';
 import '../../../core/utils/app_colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -11,69 +13,6 @@ class WorkspaceScreen extends StatefulWidget {
 }
 
 class _WorkspaceScreenState extends State<WorkspaceScreen> {
-  bool _addHoverd = false;
-  int _selectedIndex = 1;
-
-  void _showAddMenu(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: Icon(
-                  Icons.dashboard_customize,
-                  color: AppColors.blueMain_buttons,
-                ),
-                title: Text(
-                  "Add Board",
-                  style: TextStyle(color: AppColors.black),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Navigator.pushNamed(context, '/add_board');
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.group_add,
-                  color: AppColors.blueMain_buttons,
-                ),
-                title: Text(
-                  "Add Workspace",
-                  style: TextStyle(color: AppColors.black),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Navigator.pushNamed(context, '/add_board');
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.add_to_photos,
-                  color: AppColors.blueMain_buttons,
-                ),
-                title: Text(
-                  "Add Card",
-                  style: TextStyle(color: AppColors.black),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Navigator.pushNamed(context, '/add_board');
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -783,157 +722,9 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
           ],
         ),
       ),
-      floatingActionButton: MouseRegion(
-        onEnter: (_) {
-          setState(() => _addHoverd = true);
-        },
-        onExit: (_) {
-          setState(() => _addHoverd = false);
-        },
-        child: FloatingActionButton(
-          onPressed: () => _showAddMenu(context),
-          backgroundColor: _addHoverd
-              ? AppColors.blueDark_searchButton
-              : AppColors.blueMain_buttons,
-          shape: const CircleBorder(),
-          child: const Icon(Icons.add, color: Colors.white, size: 30),
-        ),
-      ),
+      floatingActionButton: const CustomFloatingButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: ClipRRect(
-        child: BottomAppBar(
-          height: 89,
-          elevation: 20,
-          color: const Color.fromARGB(234, 243, 242, 242),
-          notchMargin: 8,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      setState(() => _selectedIndex = 0);
-                      Navigator.pushNamed(context, "/home");
-                    },
-                    constraints: const BoxConstraints(),
-                    icon: Icon(
-                      Icons.home_rounded,
-                      size: 24,
-                      color: _selectedIndex == 0
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                  Text(
-                    "Boards",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: _selectedIndex == 0
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      setState(() => _selectedIndex = 1);
-                      Navigator.pushNamed(context, "/workspaceScreen", arguments: 1);
-                    },
-                    constraints: const BoxConstraints(),
-                    icon: Icon(
-                      Icons.people_outline,
-                      size: 24,
-                      color: _selectedIndex == 1
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                  Text(
-                    "Workspaces",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: _selectedIndex == 1
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(width: 40),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      setState(() => _selectedIndex = 2);
-                      Navigator.pushNamed(context, "/cardsScreen");
-                    },
-                    constraints: const BoxConstraints(),
-                    icon: Icon(
-                      Icons.chat_bubble_outline_rounded,
-                      size: 24,
-                      color: _selectedIndex == 2
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                  Text(
-                    "Cards",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: _selectedIndex == 2
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      setState(() => _selectedIndex = 3);
-                      Navigator.pushNamed(context, "/settings");
-                    },
-                    constraints: const BoxConstraints(),
-                    icon: Icon(
-                      Icons.settings,
-                      size: 24,
-                      color: _selectedIndex == 3
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                  Text(
-                    "Settings",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: _selectedIndex == 3
-                          ? AppColors.blueMain_buttons
-                          : AppColors.black.withOpacity(0.4),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: const CustomBottomBar(selectedIndex: 1,),
     );
   }
 }
