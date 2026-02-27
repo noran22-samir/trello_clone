@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trello/core/utils/app_colors.dart';
-import 'package:trello/core/widget/controllers/floating%20cubit/cubit/floating_button_cubit.dart';
+import 'package:trello/core/widget/controllers/hover%20cubit/cubit/hover_cubit.dart';
 
 class CustomFloatingButton extends StatelessWidget {
   const CustomFloatingButton({super.key});
@@ -142,27 +142,30 @@ class CustomFloatingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FloatingButtonCubit, FloatingButtonState>(
-      builder: (BuildContext context, state) {
-        return MouseRegion(
-          onEnter: (_) {
-            // setState(() => _addHoverd = true);
-            context.read<FloatingButtonCubit>().onEnter();
-          },
-          onExit: (_) {
-            // setState(() => _addHoverd = false);
-            context.read<FloatingButtonCubit>().onExit();
-          },
-          child: FloatingActionButton(
-            onPressed: () => _showAddMenu(context),
-            backgroundColor: state.isHoverd
-                ? AppColors.blueDark_searchButton
-                : AppColors.blueMain_buttons,
-            shape: const CircleBorder(),
-            child: const Icon(Icons.add, color: Colors.white, size: 30),
-          ),
-        );
-      },
+    return BlocProvider(
+      create: (context) => HoverCubit(),
+      child: BlocBuilder<HoverCubit, HoverState>(
+        builder: (BuildContext context, state) {
+          return MouseRegion(
+            onEnter: (_) {
+              // setState(() => _addHoverd = true);
+              context.read<HoverCubit>().onEnter();
+            },
+            onExit: (_) {
+              // setState(() => _addHoverd = false);
+              context.read<HoverCubit>().onExit();
+            },
+            child: FloatingActionButton(
+              onPressed: () => _showAddMenu(context),
+              backgroundColor: state.isHoverd
+                  ? AppColors.blueDark_searchButton
+                  : AppColors.blueMain_buttons,
+              shape: const CircleBorder(),
+              child: const Icon(Icons.add, color: Colors.white, size: 30),
+            ),
+          );
+        },
+      ),
     );
   }
 }
