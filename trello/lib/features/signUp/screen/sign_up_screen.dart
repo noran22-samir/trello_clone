@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trello/core/utils/app_colors.dart';
+import 'package:trello/core/widget/controllers/hover%20cubit/cubit/hover_cubit.dart';
 import 'package:trello/services/auth_service.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -22,9 +24,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _obscurePassword = true;
 
   bool _obscureConfirmPass = true;
-
-  bool _isSignHoverd = false;
-  bool _isLoginHoverd = false;
 
   //e-mail validation
   String? _validateEmail(String? value) {
@@ -333,63 +332,79 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                         width: 275,
                         height: 45,
-                        child: MouseRegion(
-                          onEnter: (_) {
-                            setState(() {
-                              _isSignHoverd = true;
-                            });
-                          },
-                          onExit: (_) {
-                            setState(() {
-                              _isSignHoverd = false;
-                            });
-                          },
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: _isSignHoverd
-                                  ? AppColors.blueMain_buttons
-                                  : AppColors.blueDark_searchButton,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 50,
-                                vertical: 9,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                            ),
-                            onPressed: () async {
-                              if (_fromKey.currentState!.validate()) {
-                                String? error = await _authService.register(
-                                  _emailController.text,
-                                  _passwordController.text,
-                                );
-                                if (error == null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('Sign Up Successful!'),
-                                      duration: Duration(seconds: 1),
+                        child: BlocProvider(
+                          create: (context) => HoverCubit(),
+                          child: BlocBuilder<HoverCubit, HoverState>(
+                            builder: (BuildContext context, HoverState state) {
+                              return MouseRegion(
+                                onEnter: (_) {
+                                  // setState(() {
+                                  //   _isSignHoverd = true;
+                                  // });
+                                  context.read<HoverCubit>().onEnter();
+                                },
+                                onExit: (_) {
+                                  // setState(() {
+                                  //   _isSignHoverd = false;
+                                  // });
+                                  context.read<HoverCubit>().onExit();
+                                },
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: state.isHoverd
+                                        ? AppColors.blueMain_buttons
+                                        : AppColors.blueDark_searchButton,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 50,
+                                      vertical: 9,
                                     ),
-                                  );
-                                  Navigator.pushNamed(context, "/login");
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(error),
-                                      backgroundColor: Colors.red,
-                                      duration: Duration(seconds: 2),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50),
                                     ),
-                                  );
-                                }
-                              }
+                                  ),
+                                  onPressed: () async {
+                                    if (_fromKey.currentState!.validate()) {
+                                      String? error = await _authService
+                                          .register(
+                                            _emailController.text,
+                                            _passwordController.text,
+                                          );
+                                      if (error == null) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Sign Up Successful!',
+                                            ),
+                                            duration: Duration(seconds: 1),
+                                          ),
+                                        );
+                                        Navigator.pushNamed(context, "/login");
+                                      } else {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(error),
+                                            backgroundColor: Colors.red,
+                                            duration: Duration(seconds: 2),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  },
+                                  child: Text(
+                                    'Sign Up',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: AppColors.white,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              );
                             },
-                            child: Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppColors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
                           ),
                         ),
                       ),
@@ -406,33 +421,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           SizedBox(width: 5),
-                          MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            onEnter: (_) {
-                              setState(() {
-                                _isLoginHoverd = true;
-                              });
-                            },
-                            onExit: (_) {
-                              setState(() {
-                                _isLoginHoverd = false;
-                              });
-                            },
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, "/login");
+                          BlocProvider(
+                            create: (context) => HoverCubit(),
+                            child: BlocBuilder<HoverCubit, HoverState>(
+                              builder: (BuildContext context, HoverState state) {
+                                return MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  onEnter: (_) {
+                                    // setState(() {
+                                    //   _isLoginHoverd = true;
+                                    // });
+                                    context.read<HoverCubit>().onEnter();
+                                  },
+                                  onExit: (_) {
+                                    // setState(() {
+                                    //   _isLoginHoverd = false;
+                                    // });
+                                    context.read<HoverCubit>().onExit();
+                                  },
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(context, "/login");
+                                    },
+                                    child: Text(
+                                      "Login",
+                                      style: TextStyle(
+                                        color: state.isHoverd
+                                            ? AppColors.blueMain_buttons
+                                            : AppColors.blueDark_searchButton,
+                                        fontWeight: FontWeight.w700,
+                                        fontStyle: FontStyle.italic,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                );
                               },
-                              child: Text(
-                                "Login",
-                                style: TextStyle(
-                                  color: _isLoginHoverd
-                                      ? AppColors.blueMain_buttons
-                                      : AppColors.blueDark_searchButton,
-                                  fontWeight: FontWeight.w700,
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: 16,
-                                ),
-                              ),
                             ),
                           ),
                         ],
