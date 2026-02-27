@@ -465,7 +465,7 @@ class _CardsScreenState extends State<CardsScreen> {
       ),
       floatingActionButton: const CustomFloatingButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const CustomBottomBar(selectedIndex: 2,),
+      bottomNavigationBar: const CustomBottomBar(),
     );
   }
 }

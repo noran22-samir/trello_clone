@@ -724,7 +724,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
       ),
       floatingActionButton: const CustomFloatingButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const CustomBottomBar(selectedIndex: 1,),
+      bottomNavigationBar: const CustomBottomBar(),
     );
   }
 }
