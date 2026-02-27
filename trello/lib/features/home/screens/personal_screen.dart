@@ -224,7 +224,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
         ),
       floatingActionButton: const CustomFloatingButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const CustomBottomBar(selectedIndex: 0,),
+      bottomNavigationBar: const CustomBottomBar(),
     );
   }
 }

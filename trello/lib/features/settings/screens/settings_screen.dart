@@ -120,7 +120,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       floatingActionButton: const CustomFloatingButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const CustomBottomBar(selectedIndex: 3,),
+      bottomNavigationBar: const CustomBottomBar(),
     );
   }
 

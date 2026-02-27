@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trello/core/utils/app_colors.dart';
+import 'package:trello/core/widget/controllers/floating%20cubit/cubit/floating_button_cubit.dart';
 
-class CustomFloatingButton extends StatefulWidget {
+class CustomFloatingButton extends StatelessWidget {
   const CustomFloatingButton({super.key});
-
-  @override
-  State<CustomFloatingButton> createState() => _CustomFloatingButtonState();
-}
-
-class _CustomFloatingButtonState extends State<CustomFloatingButton> {
-  bool _addHoverd = false;
 
   void _showAddMenu(BuildContext context) {
     showModalBottomSheet(
@@ -147,21 +142,27 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) {
-        setState(() => _addHoverd = true);
+    return BlocBuilder<FloatingButtonCubit, FloatingButtonState>(
+      builder: (BuildContext context, state) {
+        return MouseRegion(
+          onEnter: (_) {
+            // setState(() => _addHoverd = true);
+            context.read<FloatingButtonCubit>().onEnter();
+          },
+          onExit: (_) {
+            // setState(() => _addHoverd = false);
+            context.read<FloatingButtonCubit>().onExit();
+          },
+          child: FloatingActionButton(
+            onPressed: () => _showAddMenu(context),
+            backgroundColor: state.isHoverd
+                ? AppColors.blueDark_searchButton
+                : AppColors.blueMain_buttons,
+            shape: const CircleBorder(),
+            child: const Icon(Icons.add, color: Colors.white, size: 30),
+          ),
+        );
       },
-      onExit: (_) {
-        setState(() => _addHoverd = false);
-      },
-      child: FloatingActionButton(
-        onPressed: () => _showAddMenu(context),
-        backgroundColor: _addHoverd
-            ? AppColors.blueDark_searchButton
-            : AppColors.blueMain_buttons,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add, color: Colors.white, size: 30),
-      ),
     );
   }
 }
