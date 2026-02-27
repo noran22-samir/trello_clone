@@ -36,6 +36,15 @@ import 'features/add_new/screens/addBoard.dart';
 // Add card
 import 'features/add_new/screens/addCard.dart';
 
+void debugPrintAllUsers() {
+  final users = Hive.box('users');
+  print("--- Registered Users ---");
+  for (var key in users.keys) {
+    print("Email: $key | Hashed Pass: ${users.get(key)}");
+  }
+  print("------------------------");
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -44,6 +53,7 @@ void main() async {
     await Hive.openBox('users');
     await Hive.openBox('settings');
     print("Hive boxes opened successfully");
+    debugPrintAllUsers();
   } catch (e) {
     print("Error opening Hive boxes: $e");
   }
@@ -62,13 +72,9 @@ class TrelloApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<SplashCubit>(
-          create: (_) => SplashCubit()..startSplash(),
-        ),
+        BlocProvider<SplashCubit>(create: (_) => SplashCubit()..startSplash()),
 
-        BlocProvider<BottomBarCubit>(
-          create: (_) => BottomBarCubit(),
-        ),
+        BlocProvider<BottomBarCubit>(create: (_) => BottomBarCubit()),
         /*
         ================== TEAM NOTE ==================
 
