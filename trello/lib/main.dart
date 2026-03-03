@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:trello/core/widget/controllers/bottomBar%20cubit/cubit/bottom_bar_cubit.dart';
 import 'package:trello/core/widget/controllers/hover%20cubit/cubit/hover_cubit.dart';
+import 'package:trello/core/widget/controllers/obsecure%20cubit/cubit/obsecure_cubit.dart';
 import 'package:trello/services/auth_service.dart';
 
 // Splash
@@ -75,13 +76,11 @@ class TrelloApp extends StatelessWidget {
       providers: [
         BlocProvider<SplashCubit>(create: (_) => SplashCubit()..startSplash()),
 
-        BlocProvider<BottomBarCubit>(
-          create: (_) => BottomBarCubit(),
-        ),
+        BlocProvider<BottomBarCubit>(create: (_) => BottomBarCubit()),
 
-        BlocProvider<HoverCubit>(
-          create: (_) => HoverCubit(),
-          )
+        BlocProvider<HoverCubit>(create: (_) => HoverCubit()),
+
+        BlocProvider<ObsecureCubit>(create: (_) => ObsecureCubit()),
         /*
         ================== TEAM NOTE ==================
 
