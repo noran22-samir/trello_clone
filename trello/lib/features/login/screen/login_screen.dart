@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trello/core/utils/app_colors.dart';
 import 'package:trello/core/widget/controllers/hover%20cubit/cubit/hover_cubit.dart';
+import 'package:trello/core/widget/controllers/obsecure%20cubit/cubit/obsecure_cubit.dart';
 import 'package:trello/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -175,60 +176,78 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ],
                             ),
-                            child: TextFormField(
-                              controller: _passwordController,
-                              obscureText: _obscurePassword,
-                              keyboardType: TextInputType.emailAddress,
-                              validator: _validatePassword,
-                              decoration: InputDecoration(
-                                suffixIcon: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                    0,
-                                    0,
-                                    10,
-                                    0,
-                                  ),
-                                  child: IconButton(
-                                    icon: Icon(
-                                      _obscurePassword
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
-                                      color: const Color.fromARGB(
-                                        102,
-                                        86,
-                                        85,
-                                        85,
-                                      ),
-                                      size: 20,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _obscurePassword = !_obscurePassword;
-                                      });
-                                    },
-                                  ),
+                            child:
+                                BlocSelector<
+                                  ObsecureCubit,
+                                  ObsecureState,
+                                  bool
+                                >(
+                                  selector: (state) => state.loginPassObsecure,
+                                  builder:
+                                      (BuildContext context, bool isObsecure) {
+                                        return TextFormField(
+                                          controller: _passwordController,
+                                          obscureText: isObsecure,
+                                          keyboardType:
+                                              TextInputType.visiblePassword,
+                                          validator: _validatePassword,
+                                          decoration: InputDecoration(
+                                            suffixIcon: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                    0,
+                                                    0,
+                                                    10,
+                                                    0,
+                                                  ),
+                                              child: IconButton(
+                                                icon: Icon(
+                                                  isObsecure
+                                                      ? Icons.visibility_off
+                                                      : Icons.visibility,
+                                                  color: const Color.fromARGB(
+                                                    102,
+                                                    86,
+                                                    85,
+                                                    85,
+                                                  ),
+                                                  size: 20,
+                                                ),
+                                                onPressed: () {
+                                                  // setState(() {
+                                                  //   _obscurePassword =
+                                                  //       !_obscurePassword;
+                                                  // });
+                                                  context
+                                                      .read<ObsecureCubit>()
+                                                      .loginPassword();
+                                                },
+                                              ),
+                                            ),
+                                            filled: true,
+                                            fillColor: AppColors.white,
+                                            hint: Text(
+                                              "password",
+                                              style: TextStyle(
+                                                color: const Color.fromARGB(
+                                                  102,
+                                                  86,
+                                                  85,
+                                                  85,
+                                                ),
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                          ),
+                                        );
+                                      },
                                 ),
-                                filled: true,
-                                fillColor: AppColors.white,
-                                hint: Text(
-                                  "password",
-                                  style: TextStyle(
-                                    color: const Color.fromARGB(
-                                      102,
-                                      86,
-                                      85,
-                                      85,
-                                    ),
-                                    fontWeight: FontWeight.w600,
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                  borderSide: BorderSide.none,
-                                ),
-                              ),
-                            ),
                           ),
                         ),
                       ),
@@ -236,81 +255,85 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         width: 275,
                         height: 45,
-                          child: BlocSelector<HoverCubit, HoverState,bool>(
-                            selector: (state) => state.loginHoverd,
-                            builder: (BuildContext context, bool isHoverd) {
-                              return MouseRegion(
-                                onEnter: (_) {
-                                  // setState(() {
-                                  //   _isSignHoverd = true;
-                                  // });
-                                  context.read<HoverCubit>().onLoginHoverChanged(true);
-                                },
-                                onExit: (_) {
-                                  // setState(() {
-                                  //   _isSignHoverd = false;
-                                  // });
-                                  context.read<HoverCubit>().onLoginHoverChanged(false);
-                                },
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: isHoverd
-                                        ? AppColors.blueMain_buttons
-                                        : AppColors.blueDark_searchButton,
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 50,
-                                      vertical: 9,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
+                        child: BlocSelector<HoverCubit, HoverState, bool>(
+                          selector: (state) => state.loginHoverd,
+                          builder: (BuildContext context, bool isHoverd) {
+                            return MouseRegion(
+                              onEnter: (_) {
+                                // setState(() {
+                                //   _isSignHoverd = true;
+                                // });
+                                context.read<HoverCubit>().onLoginHoverChanged(
+                                  true,
+                                );
+                              },
+                              onExit: (_) {
+                                // setState(() {
+                                //   _isSignHoverd = false;
+                                // });
+                                context.read<HoverCubit>().onLoginHoverChanged(
+                                  false,
+                                );
+                              },
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: isHoverd
+                                      ? AppColors.blueMain_buttons
+                                      : AppColors.blueDark_searchButton,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 50,
+                                    vertical: 9,
                                   ),
-                                  onPressed: () async {
-                                    if (_fromKey.currentState!.validate()) {
-                                      bool isSuccess = await _authService.login(
-                                        _emailController.text,
-                                        _passwordController.text,
-                                      );
-                                      if (isSuccess) {
-                                        _authService.setLoggedIn(true);
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Logged In Successful!',
-                                            ),
-                                            duration: Duration(seconds: 1),
-                                          ),
-                                        );
-                                        Navigator.pushNamed(context, "/home");
-                                      } else {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Invalid email or password!',
-                                            ),
-                                            backgroundColor: Colors.red,
-                                            duration: Duration(seconds: 1),
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  },
-                                  child: Text(
-                                    'Login',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: AppColors.white,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
                                   ),
                                 ),
-                              );
-                            },
-                          ),
+                                onPressed: () async {
+                                  if (_fromKey.currentState!.validate()) {
+                                    bool isSuccess = await _authService.login(
+                                      _emailController.text,
+                                      _passwordController.text,
+                                    );
+                                    if (isSuccess) {
+                                      _authService.setLoggedIn(true);
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Logged In Successful!',
+                                          ),
+                                          duration: Duration(seconds: 1),
+                                        ),
+                                      );
+                                      Navigator.pushNamed(context, "/home");
+                                    } else {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Invalid email or password!',
+                                          ),
+                                          backgroundColor: Colors.red,
+                                          duration: Duration(seconds: 1),
+                                        ),
+                                      );
+                                    }
+                                  }
+                                },
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: AppColors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                       SizedBox(height: 15),
                       Row(
@@ -327,45 +350,44 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(width: 5),
                           BlocSelector<HoverCubit, HoverState, bool>(
                             selector: (state) => state.signHoverd,
-                              builder:
-                                  (BuildContext context, bool isHoverd) {
-                                    return MouseRegion(
-                                      cursor: SystemMouseCursors.click,
-                                      onEnter: (_) {
-                                        // setState(() {
-                                        //   _isLoginHoverd = true;
-                                        // });
-                                        context.read<HoverCubit>().onSignHoverChanged(true);
-                                      },
-                                      onExit: (_) {
-                                        // setState(() {
-                                        //   _isLoginHoverd = false;
-                                        // });
-                                        context.read<HoverCubit>().onSignHoverChanged(false);
-                                      },
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                            context,
-                                            "/signUp",
-                                          );
-                                        },
-                                        child: Text(
-                                          "Sign Up",
-                                          style: TextStyle(
-                                            color: isHoverd
-                                                ? AppColors.blueMain_buttons
-                                                : AppColors
-                                                      .blueDark_searchButton,
-                                            fontWeight: FontWeight.w700,
-                                            fontStyle: FontStyle.italic,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    );
+                            builder: (BuildContext context, bool isHoverd) {
+                              return MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                onEnter: (_) {
+                                  // setState(() {
+                                  //   _isLoginHoverd = true;
+                                  // });
+                                  context.read<HoverCubit>().onSignHoverChanged(
+                                    true,
+                                  );
+                                },
+                                onExit: (_) {
+                                  // setState(() {
+                                  //   _isLoginHoverd = false;
+                                  // });
+                                  context.read<HoverCubit>().onSignHoverChanged(
+                                    false,
+                                  );
+                                },
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, "/signUp");
                                   },
-                            ),
+                                  child: Text(
+                                    "Sign Up",
+                                    style: TextStyle(
+                                      color: isHoverd
+                                          ? AppColors.blueMain_buttons
+                                          : AppColors.blueDark_searchButton,
+                                      fontWeight: FontWeight.w700,
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ],
                       ),
                       SizedBox(height: 25),
