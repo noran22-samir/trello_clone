@@ -149,11 +149,11 @@ class CustomFloatingButton extends StatelessWidget {
           return MouseRegion(
             onEnter: (_) {
               // setState(() => _addHoverd = true);
-              context.read<HoverCubit>().onEnter();
+              context.read<HoverCubit>().floatingHoverChanged(true);
             },
             onExit: (_) {
               // setState(() => _addHoverd = false);
-              context.read<HoverCubit>().onExit();
+              context.read<HoverCubit>().floatingHoverChanged(false);
             },
             child: FloatingActionButton(
               onPressed: () => _showAddMenu(context),
