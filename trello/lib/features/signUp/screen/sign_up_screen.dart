@@ -332,26 +332,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                         width: 275,
                         height: 45,
-                        child: BlocProvider(
-                          create: (context) => HoverCubit(),
-                          child: BlocBuilder<HoverCubit, HoverState>(
-                            builder: (BuildContext context, HoverState state) {
-                              return MouseRegion(
+                        child: BlocSelector<HoverCubit, HoverState, bool>(
+                          selector: (state) => state.signHoverd,
+                          builder: (BuildContext context, bool isHoverd) { 
+                            return MouseRegion(
                                 onEnter: (_) {
                                   // setState(() {
                                   //   _isSignHoverd = true;
                                   // });
-                                  context.read<HoverCubit>().onEnter();
+                                  context.read<HoverCubit>().onSignHoverChanged(true);
                                 },
                                 onExit: (_) {
                                   // setState(() {
                                   //   _isSignHoverd = false;
                                   // });
-                                  context.read<HoverCubit>().onExit();
+                                  context.read<HoverCubit>().onSignHoverChanged(false);
                                 },
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: state.isHoverd
+                                    backgroundColor: isHoverd
                                         ? AppColors.blueMain_buttons
                                         : AppColors.blueDark_searchButton,
                                     padding: EdgeInsets.symmetric(
@@ -404,9 +403,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                 ),
                               );
-                            },
+                           },
+                          
                           ),
-                        ),
+                        
                       ),
                       SizedBox(height: 15),
                       Row(
@@ -421,23 +421,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           SizedBox(width: 5),
-                          BlocProvider(
-                            create: (context) => HoverCubit(),
-                            child: BlocBuilder<HoverCubit, HoverState>(
-                              builder: (BuildContext context, HoverState state) {
+                          BlocSelector<HoverCubit, HoverState, bool>(
+                            selector: (state) => state.loginHoverd,
+                              builder: (BuildContext context, bool isHoverd) {
                                 return MouseRegion(
                                   cursor: SystemMouseCursors.click,
                                   onEnter: (_) {
                                     // setState(() {
                                     //   _isLoginHoverd = true;
                                     // });
-                                    context.read<HoverCubit>().onEnter();
+                                    context.read<HoverCubit>().onLoginHoverChanged(true);
                                   },
                                   onExit: (_) {
                                     // setState(() {
                                     //   _isLoginHoverd = false;
                                     // });
-                                    context.read<HoverCubit>().onExit();
+                                    context.read<HoverCubit>().onLoginHoverChanged(false);
                                   },
                                   child: GestureDetector(
                                     onTap: () {
@@ -446,7 +445,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     child: Text(
                                       "Login",
                                       style: TextStyle(
-                                        color: state.isHoverd
+                                        color: isHoverd
                                             ? AppColors.blueMain_buttons
                                             : AppColors.blueDark_searchButton,
                                         fontWeight: FontWeight.w700,
@@ -458,7 +457,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 );
                               },
                             ),
-                          ),
                         ],
                       ),
                       SizedBox(height: 25),
