@@ -13,22 +13,7 @@ class boardsUi extends StatelessWidget {
           onPressed: () {},
           backgroundColor: const Color.fromARGB(255, 17, 89, 147),
           elevation: 3,
-          child: Icon(Icons.search_off_sharp, color: Colors.white),
-        ),
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-
-          title: Text("Boards Title"),
-          actions: [
-            Opacity(opacity: 0.4, child: Icon(Icons.sort)),
-            Opacity(opacity: 0.4, child: Icon(Icons.notifications)),
-            Opacity(opacity: 0.4, child: Icon(Icons.more_vert_rounded)),
-          ],
+          child: Icon(Icons.minimize_rounded, color: Colors.white),
         ),
         body: SingleChildScrollView(
           child: Column(
