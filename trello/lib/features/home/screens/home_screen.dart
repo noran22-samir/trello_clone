@@ -84,527 +84,309 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(color: Colors.grey[300], height: 1),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: ListView(
-          children: [
-            Row(
-              children: [
-                Text(
-                  "Favourite",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.black,
-                  ),
-                ),
-                Spacer(),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/favScreen');
-                  },
-                  child: Text(
-                    "show all",
-                    style: TextStyle(color: AppColors.blueMain_buttons),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 3),
-            SizedBox(
-              height: 180,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 7,
-                itemBuilder: (context, index) {
-                  final item = _data[index % _data.length];
-                  final containerColor = index % 2 == 0
-                      ? AppColors.blueSky_card
-                      : AppColors.lightGreen_card;
-                  return Container(
-                    width: 250,
-                    margin: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: containerColor,
-                      borderRadius: BorderRadius.circular(15),
+      body:SingleChildScrollView(
+        child: Column(
+            children: [
+              Divider(height: 1, thickness: 1),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Opacity(opacity: 0.4, child: Icon(Icons.favorite_border)),
+                    SizedBox(height: 18, child: VerticalDivider(thickness: 1)),
+                    Opacity(opacity: 0.4, child: Icon(Icons.public)),
+                    Opacity(opacity: 0.4, child: Text("Public")),
+                    SizedBox(height: 18, child: VerticalDivider(thickness: 1)),
+                    Opacity(opacity: 0.4, child: Icon(Icons.lock_outlined)),
+                    Spacer(flex: 1),
+
+                    SizedBox(
+                      width: 120,
+                      height: 36,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 0,
+                            child: CircleAvatar(
+                              radius: 16,
+                              backgroundColor: Colors.pink,
+                            ),
+                          ),
+
+                          Positioned(
+                            left: 22,
+                            child: CircleAvatar(
+                              radius: 16,
+                              backgroundColor: Color(0xffa18a92),
+                            ),
+                          ),
+
+                          Positioned(
+                            left: 44,
+                            child: CircleAvatar(
+                              radius: 16,
+                              backgroundColor: Color(0xff242323),
+                            ),
+                          ),
+
+                          Positioned(
+                            left: 66,
+                            child: CircleAvatar(
+                              radius: 16,
+                              backgroundColor: Colors.black,
+                              child: Text(
+                                "+16",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+              ),
+
+              Container(
+                child: Card(
+                  child: ListTile(
+                    title: Text(
+                      "Design",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    trailing: Icon(Icons.more_horiz),
+                  ),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                item['title'],
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.black,
-                                ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 7,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 14, 134, 232),
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                              SizedBox(
-                                width: 62,
-                                height: 30,
-                                child: Stack(
-                                  children: List.generate(
-                                    item['workspace'] > 3
-                                        ? 4
-                                        : item['workspace'],
-                                    (imgIndex) {
-                                      return Positioned(
-                                        left: imgIndex * 12.0,
-
-                                        child: CircleAvatar(
-                                          radius: 14,
-
-                                          backgroundImage: (imgIndex < 3)
-                                              ? NetworkImage(
-                                                  "https://picsum.photos/100?sig=${index + imgIndex}",
-                                                )
-                                              : null,
-                                          child:
-                                              (imgIndex == 3 &&
-                                                  item['workspace'] > 3)
-                                              ? Center(
-                                                  child: Text(
-                                                    "+${item['workspace'] - 3}",
-                                                    style: TextStyle(
-                                                      fontSize: 9,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: AppColors
-                                                          .blueMain_buttons,
-                                                    ),
-                                                  ),
-                                                )
-                                              : null,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
+                            ),
+                            SizedBox(width: 6),
+                            Container(
+                              width: 40,
+                              height: 7,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 255, 205, 54),
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                            ],
+                            ),
+                            SizedBox(width: 6),
+                            Container(
+                              width: 40,
+                              height: 7,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 227, 41, 28),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                          ],
+                        ),
+                        ListTile(
+                          title: Text(
+                            "Home business advertising ideas",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            "Successful businesses know the importance of building and maintaining...",
                           ),
                         ),
-                        SizedBox(height: 18),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.people,
-                                size: 16,
-                                color: AppColors.black.withOpacity(0.3),
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                "Workspace ${item['workspace']}",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.black.withOpacity(0.7),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 25),
-                        Divider(height: 1),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "${item['lists']} Lists",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppColors.black.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: 39,
-                                width: 1,
-                                color: AppColors.black.withOpacity(0.3),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 15),
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      "${item['cards']} Cards",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppColors.black.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Text(
-                  "Recent",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.black,
-                  ),
-                ),
-                Spacer(),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/recentScreen');
-                  },
-                  child: Text(
-                    "show all",
-                    style: TextStyle(color: AppColors.blueMain_buttons),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 3),
-            SizedBox(
-              height: 180,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 7,
-                itemBuilder: (context, index) {
-                  final item = _data[index % _data.length];
-                  final containerColor = index % 2 == 0
-                      ? AppColors.lightOrange_card
-                      : AppColors.lightRed_card;
-                  return Container(
-                    width: 250,
-                    margin: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: containerColor,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                item['title'],
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.black,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 62,
-                                height: 30,
-                                child: Stack(
-                                  children: List.generate(
-                                    item['workspace'] > 3
-                                        ? 4
-                                        : item['workspace'],
-                                    (imgIndex) {
-                                      return Positioned(
-                                        left: imgIndex * 12.0,
-
-                                        child: CircleAvatar(
-                                          radius: 14,
-
-                                          backgroundImage: (imgIndex < 3)
-                                              ? NetworkImage(
-                                                  "https://picsum.photos/100?sig=${index + imgIndex}",
-                                                )
-                                              : null,
-                                          child:
-                                              (imgIndex == 3 &&
-                                                  item['workspace'] > 3)
-                                              ? Center(
-                                                  child: Text(
-                                                    "+${item['workspace'] - 3}",
-                                                    style: TextStyle(
-                                                      fontSize: 9,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: AppColors
-                                                          .blueMain_buttons,
-                                                    ),
-                                                  ),
-                                                )
-                                              : null,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 18),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.people,
-                                size: 16,
-                                color: AppColors.black.withOpacity(0.3),
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                "Workspace ${item['workspace']}",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.black.withOpacity(0.7),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 25),
-                        Divider(height: 1),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "${item['lists']} Lists",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppColors.black.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: 39,
-                                width: 1,
-                                color: AppColors.black.withOpacity(0.3),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 15),
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      "${item['cards']} Cards",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppColors.black.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Text(
-                  "Personal",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.black,
-                  ),
-                ),
-                Spacer(),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/personalScreen');
-                  },
-                  child: Text(
-                    "show all",
-                    style: TextStyle(color: AppColors.blueMain_buttons),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 3),
-
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                final item = _data[index % _data.length];
-                final containerColor = index % 2 == 0
-                    ? AppColors.lightPurple_card
-                    : AppColors.skyBlue_card;
-                return Container(
-                  width: 250,
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: containerColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Row(
+                        SizedBox(height: 15),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              item['title'],
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.black,
+                            CircleAvatar(
+                              radius: 16,
+                              backgroundColor: Colors.black,
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: 18,
                               ),
                             ),
-                            SizedBox(
-                              width: 62,
-                              height: 30,
-                              child: Stack(
-                                children: List.generate(
-                                  item['workspace'] > 3 ? 4 : item['workspace'],
-                                  (imgIndex) {
-                                    return Positioned(
-                                      left: imgIndex * 12.0,
+                            Row(
+                              children: [
+                                Opacity(opacity: 0.4, child: Text("76")),
+                                Opacity(
+                                  opacity: 0.4,
+                                  child: Icon(Icons.insert_comment_outlined),
+                                ),
+                                SizedBox(width: 6),
 
-                                      child: CircleAvatar(
-                                        radius: 14,
-
-                                        backgroundImage: (imgIndex < 3)
-                                            ? NetworkImage(
-                                                "https://picsum.photos/100?sig=${index + imgIndex}",
-                                              )
-                                            : null,
-                                        child:
-                                            (imgIndex == 3 &&
-                                                item['workspace'] > 3)
-                                            ? Center(
-                                                child: Text(
-                                                  "+${item['workspace'] - 3}",
-                                                  style: TextStyle(
-                                                    fontSize: 9,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: AppColors
-                                                        .blueMain_buttons,
-                                                  ),
-                                                ),
-                                              )
-                                            : null,
-                                      ),
-                                    );
-                                  },
+                                Opacity(opacity: 0.4, child: Text("25")),
+                                Opacity(
+                                  opacity: 0.4,
+                                  child: Icon(Icons.favorite_border_rounded),
                                 ),
-                              ),
+                                SizedBox(width: 5),
+                                Opacity(opacity: 0.4, child: Text("12")),
+                                Opacity(
+                                  opacity: 0.4,
+                                  child: Icon(Icons.attach_file_sharp),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ),
-                      SizedBox(height: 18),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.people,
-                              size: 16,
-                              color: AppColors.black.withOpacity(0.3),
-                            ),
-                            SizedBox(width: 5),
-                            Text(
-                              "Workspace ${item['workspace']}",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppColors.black.withOpacity(0.7),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 25),
-                      Divider(height: 1),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 15),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "${item['lists']} Lists",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.black.withOpacity(0.7),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 39,
-                              width: 1,
-                              color: AppColors.black.withOpacity(0.3),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    "${item['cards']} Cards",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.black.withOpacity(0.7),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                );
-              },
-            ),
-          ],
-        ),
+                ),
+              ),
+              //////////////////////
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 7,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 110, 11, 167),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            SizedBox(width: 6),
+                            Container(
+                              width: 40,
+                              height: 7,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 19, 201, 225),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            SizedBox(width: 6),
+                          ],
+                        ),
+                        Image.asset(
+                          "assets/images/cardphoto.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                        ListTile(
+                          title: Text(
+                            "Unmatched toner cartridge quality 20 less than oem price",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            "Why read motivational sayings? For motivation! You might need a bit, if you can use last year's list of goals this year because it's as good as new",
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 120,
+                              height: 36,
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    left: 0,
+                                    child: CircleAvatar(
+                                      radius: 16,
+                                      backgroundColor: Colors.pink,
+                                    ),
+                                  ),
+
+                                  Positioned(
+                                    left: 22,
+                                    child: CircleAvatar(
+                                      radius: 16,
+                                      backgroundColor: Color(0xffa18a92),
+                                    ),
+                                  ),
+
+                                  Positioned(
+                                    left: 44,
+                                    child: CircleAvatar(
+                                      radius: 16,
+                                      backgroundColor: Color(0xff242323),
+                                    ),
+                                  ),
+
+                                  Positioned(
+                                    left: 66,
+                                    child: CircleAvatar(
+                                      radius: 16,
+                                      backgroundColor: Colors.black,
+                                      child: CircleAvatar(
+                                        radius: 16,
+                                        backgroundColor: Colors.black,
+                                        child: Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                          size: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Opacity(opacity: 0.4, child: Text("76")),
+                                Opacity(
+                                  opacity: 0.4,
+                                  child: Icon(Icons.insert_comment_outlined),
+                                ),
+                                SizedBox(width: 6),
+
+                                Opacity(opacity: 0.4, child: Text("25")),
+                                Opacity(
+                                  opacity: 0.4,
+                                  child: Icon(Icons.favorite_border_rounded),
+                                ),
+                                SizedBox(width: 5),
+                                Opacity(opacity: 0.4, child: Text("12")),
+                                Opacity(
+                                  opacity: 0.4,
+                                  child: Icon(Icons.attach_file_sharp),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
       ),
+      
       floatingActionButton: const CustomFloatingButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: const CustomBottomBar(),
