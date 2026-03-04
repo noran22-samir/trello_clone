@@ -58,5 +58,6 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "C_Cpp.errorSquiggles": "disabled",
   "java.configuration.updateBuildConfiguration": "interactive",
-  "cmake.sourceDirectory": "D:/Studying/sec4/2nd_term/IT/Mobile App/App Project/trello_clone/trello/linux"
+  "cmake.sourceDirectory": "D:/Studying/sec4/2nd_term/IT/Mobile App/App Project/trello_clone/trello/linux",
+  "debug.enableStatusBarColor": false
 }
