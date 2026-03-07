@@ -40,8 +40,7 @@ import 'features/add_new/screens/addBoard.dart';
 
 // Add card
 import 'features/add_new/screens/addCard.dart';
-import './core//widget//base_widget.dart';
-
+import 'package:trello/core/widget/base_widget.dart';
 void debugPrintAllUsers() {
   final users = Hive.box('users');
   print("--- Registered Users ---");

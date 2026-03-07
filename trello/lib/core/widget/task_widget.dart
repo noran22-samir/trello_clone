@@ -87,6 +87,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                 ),
               ),
             ),
+            
 
             /// title of Task
             title: Padding(

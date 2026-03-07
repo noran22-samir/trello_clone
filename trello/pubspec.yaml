@@ -52,6 +52,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/lottie/1.json
 
 flutter_icons:
   android: true

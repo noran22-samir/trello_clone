@@ -100,15 +100,12 @@ class _TaskViewState extends State<TaskView> {
   }
 
   /// If any task already exist app will update it otherwise the app will add a new task
-  dynamic isTaskAlreadyExistUpdateTask() {
+  dynamic isTaskAlreadyExistUpdateTask() async {
     if (widget.taskControllerForTitle?.text != null &&
         widget.taskControllerForSubtitle?.text != null) {
       try {
         widget.taskControllerForTitle?.text = title;
         widget.taskControllerForSubtitle?.text = subtitle;
-
-        // widget.task?.createdAtDate = date!;
-        // widget.task?.createdAtTime = time!;
 
         widget.task?.save();
         Navigator.of(context).pop();
@@ -123,7 +120,10 @@ class _TaskViewState extends State<TaskView> {
           createdAtDate: date,
           subtitle: subtitle,
         );
-        BaseWidget.of(context).dataStore.addTask(task: task);
+        await BaseWidget.of(context).dataStore.addTask(task: task);
+
+        // force UI update
+
         Navigator.of(context).pop();
       } else {
         emptyFieldsWarning(context);
