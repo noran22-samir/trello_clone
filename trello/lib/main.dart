@@ -35,6 +35,11 @@ import 'features/add_new/screens/addBoard.dart';
 // Add card
 import 'features/add_new/screens/addCard.dart';
 
+import 'models/workspace_model.dart';
+import 'models/card_model.dart';
+import 'features/add_new/cubit/addCard_cubit.dart';
+import 'features/simple_bloc_observer.dart ';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -46,6 +51,13 @@ void main() async {
   } catch (e) {
     print("Error opening Hive boxes: $e");
   }
+
+  Bloc.observer = SimpleBlocObserver();
+
+  await Hive.openBox('workspacesBox');
+  Hive.registerAdapter(WorkspaceModelAdapter());       
+  await Hive.openBox('cardsBox');
+  Hive.registerAdapter(CardModelAdapter());
 
   final authService = AuthService();
   bool isLoggedIn = authService.checkLogin();
@@ -61,9 +73,8 @@ class TrelloApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<SplashCubit>(
-          create: (_) => SplashCubit()..startSplash(),
-        ),
+        BlocProvider<SplashCubit>(create: (_) => SplashCubit()..startSplash()),
+        BlocProvider<AddCardCubit>(create: (_) => AddCardCubit()),
 
         /*
         ================== TEAM NOTE ==================
