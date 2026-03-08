@@ -39,8 +39,11 @@ import 'features/cards/screens/cardsUi.dart';
 import 'features/add_new/screens/addBoard.dart';
 
 // Add card
-import 'features/add_new/screens/addCard.dart';
 import 'package:trello/core/widget/base_widget.dart';
+import 'models/card_model.dart';
+import 'features/add_new/screens/addCard.dart';
+
+
 void debugPrintAllUsers() {
   final users = Hive.box('users');
   print("--- Registered Users ---");
@@ -49,6 +52,8 @@ void debugPrintAllUsers() {
   }
   print("------------------------");
 }
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,6 +75,8 @@ void main() async {
     }
   });
 
+
+  
   final authService = AuthService();
   bool isLoggedIn = authService.checkLogin();
 
