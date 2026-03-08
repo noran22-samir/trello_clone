@@ -31,10 +31,7 @@ class CustomFloatingButton extends StatelessWidget {
                   Icons.dashboard_customize,
                   color: AppColors.blueMain_buttons,
                 ),
-                title: Text(
-                  "Add Board",
-                  style: TextStyle(color: AppColors.black),
-                ),
+                title: Text("Add Board"),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/addBoard');
@@ -45,10 +42,7 @@ class CustomFloatingButton extends StatelessWidget {
                   Icons.group_add,
                   color: AppColors.blueMain_buttons,
                 ),
-                title: Text(
-                  "Add Workspace",
-                  style: TextStyle(color: AppColors.black),
-                ),
+                title: Text("Add Workspace"),
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
@@ -74,7 +68,7 @@ class CustomFloatingButton extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.black,
+                                // color: AppColors.black,
                               ),
                             ),
                             SizedBox(height: 10),
@@ -92,14 +86,7 @@ class CustomFloatingButton extends StatelessWidget {
                               onPressed: () {
                                 if (workspaceController.text.isNotEmpty) {
                                   Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        "Workspace '${workspaceController.text}' created!",
-                                      ),
-                                    ),
-                                  );
-                                  workspaceController.clear();
+                                  Navigator.pop(context);
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -124,10 +111,7 @@ class CustomFloatingButton extends StatelessWidget {
                   Icons.add_to_photos,
                   color: AppColors.blueMain_buttons,
                 ),
-                title: Text(
-                  "Add Card",
-                  style: TextStyle(color: AppColors.black),
-                ),
+                title: Text("Add Card"),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/addCard');

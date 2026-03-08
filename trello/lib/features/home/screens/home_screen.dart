@@ -11,16 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Map<String, dynamic>> _data = [
-    {"title": "Project Alpha", "workspace": 2, "lists": 5, "cards": 20},
-    {"title": "Marketing Campaign", "workspace": 1, "lists": 3, "cards": 15},
-    {"title": "Product Launch", "workspace": 3, "lists": 4, "cards": 10},
-    {"title": "Design Sprint", "workspace": 5, "lists": 6, "cards": 25},
-    {"title": "Event Planning", "workspace": 2, "lists": 2, "cards": 8},
-    {"title": "Customer Support", "workspace": 4, "lists": 7, "cards": 30},
-    {"title": "HR Onboarding", "workspace": 1, "lists": 3, "cards": 12},
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {},
               icon: Icon(
                 Icons.notifications_none,
-                color: AppColors.black.withOpacity(0.4),
+                // color: AppColors.black.withOpacity(0.4),
                 size: 20,
               ),
             ),

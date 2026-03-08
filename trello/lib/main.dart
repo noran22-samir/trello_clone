@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:trello/core/widget/controllers/bottomBar%20cubit/cubit/bottom_bar_cubit.dart';
 import 'package:trello/core/widget/controllers/hover%20cubit/cubit/hover_cubit.dart';
 import 'package:trello/core/widget/controllers/obsecure%20cubit/cubit/obsecure_cubit.dart';
+import 'package:trello/features/settings/cubit/checkbox%20cubit/checkbox_cubit.dart';
 import 'package:trello/services/auth_service.dart';
 
 // Splash
@@ -81,6 +82,9 @@ class TrelloApp extends StatelessWidget {
         BlocProvider<HoverCubit>(create: (_) => HoverCubit()),
 
         BlocProvider<ObsecureCubit>(create: (_) => ObsecureCubit()),
+
+        BlocProvider<CheckboxCubit>(create: (_) => CheckboxCubit()),
+
         /*
         ================== TEAM NOTE ==================
 
@@ -95,35 +99,35 @@ class TrelloApp extends StatelessWidget {
         */
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const SplashScreen(),
-          '/on_boarding': (context) => const OnboardingScreen(),
+            debugShowCheckedModeBanner: false,
+            initialRoute: '/',
+            routes: {
+              '/': (context) => const SplashScreen(),
+              '/on_boarding': (context) => const OnboardingScreen(),
 
-          // Auth
-          '/signUp': (context) => const SignUpScreen(),
-          '/login': (context) => const LoginScreen(),
+              // Auth
+              '/signUp': (context) => const SignUpScreen(),
+              '/login': (context) => const LoginScreen(),
 
-          // Home
-          '/home': (context) => const HomeScreen(),
-          '/settings': (context) => const SettingsScreen(),
-          '/favScreen': (context) => const FavScreen(),
-          '/recentScreen': (context) => const RecentScreen(),
-          '/personalScreen': (context) => const PersonalScreen(),
+              // Home
+              '/home': (context) => const HomeScreen(),
+              '/settings': (context) => const SettingsScreen(),
+              '/favScreen': (context) => const FavScreen(),
+              '/recentScreen': (context) => const RecentScreen(),
+              '/personalScreen': (context) => const PersonalScreen(),
 
-          // Workspace
-          '/workspaceScreen': (context) => const WorkspaceScreen(),
+              // Workspace
+              '/workspaceScreen': (context) => const WorkspaceScreen(),
 
-          // Cards
-          '/cardsScreen': (context) => const CardsScreen(),
+              // Cards
+              '/cardsScreen': (context) => const CardsScreen(),
 
-          // Add Board
-          '/addBoard': (context) => const AddBoardScreen(),
-          // Add card
-          '/addCard': (context) => const AddCardScreen(),
-        },
-      ),
+              // Add Board
+              '/addBoard': (context) => const AddBoardScreen(),
+              // Add card
+              '/addCard': (context) => const AddCardScreen(),
+            },
+          )
     );
   }
 }

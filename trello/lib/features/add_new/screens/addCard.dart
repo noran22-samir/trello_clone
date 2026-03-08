@@ -32,7 +32,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
       labelText: label,
       hintText: hint,
       filled: true,
-      fillColor: AppColors.surface,
+      // fillColor: AppColors.surface,
       labelStyle: const TextStyle(color: AppColors.hint),
       hintStyle: const TextStyle(color: AppColors.hint),
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
@@ -76,7 +76,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      // backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.blueMain_buttons,
         elevation: 0,
@@ -88,9 +88,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Card Saved (UI only)')),
-              );
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //   const SnackBar(content: Text('Card Saved (UI only)')),
+              // );
               Navigator.pop(context);
             },
             child: const Text('SAVE', style: TextStyle(color: AppColors.white)),
@@ -145,7 +145,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                 const Icon(
                   Icons.group_outlined,
                   size: 28,
-                  color: AppColors.text,
+                  // color: AppColors.text,
                 ),
                 const SizedBox(width: 14),
                 Container(
@@ -163,7 +163,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
             Row(
               children: [
-                const Icon(Icons.access_time, size: 26, color: AppColors.text),
+                const Icon(Icons.access_time, size: 26),
                 const SizedBox(width: 10),
                 Expanded(
                   child: InkWell(
@@ -177,7 +177,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                         startDate == null
                             ? 'start date'
                             : 'start date  ${_fmt(startDate)}',
-                        style: const TextStyle(color: AppColors.text),
+                        // style: const TextStyle(color: Colors.blueGrey),
                       ),
                     ),
                   ),
@@ -196,7 +196,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                           dueDate == null
                               ? 'due date'
                               : 'due date  ${_fmt(dueDate)}',
-                          style: const TextStyle(color: AppColors.text),
+                          // style: const TextStyle(color: AppColors.text),
                         ),
                       ),
                     ),
@@ -208,9 +208,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
             Row(
               children: const [
-                Icon(Icons.attach_file, size: 26, color: AppColors.text),
+                Icon(Icons.attach_file, size: 26),
                 SizedBox(width: 10),
-                Text('attachment', style: TextStyle(color: AppColors.text)),
+                Text('attachment'),
               ],
             ),
           ],
