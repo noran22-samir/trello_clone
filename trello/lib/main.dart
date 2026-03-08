@@ -4,11 +4,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:trello/core/widget/controllers/bottomBar%20cubit/cubit/bottom_bar_cubit.dart';
 import 'package:trello/core/widget/controllers/hover%20cubit/cubit/hover_cubit.dart';
 import 'package:trello/core/widget/controllers/obsecure%20cubit/cubit/obsecure_cubit.dart';
+import 'package:trello/features/settings/cubit/checkbox%20cubit/checkbox_cubit.dart';
 import 'package:trello/services/auth_service.dart';
-import './data/hive_data_store.dart';
 import './models/task.dart';
 
-import './views/tasks/task_view.dart';
 
 // Splash
 import 'features/splash/screen/splash_screen.dart';
@@ -64,7 +63,6 @@ void main() async {
   print("Hive boxes opened successfully");
   debugPrintAllUsers();
 
-  // مسح مهام اليوم السابق
   final tasksBox = Hive.box<Task>('tasksBox');
   tasksBox.values.forEach((task) {
     if (task.createdAtTime.day != DateTime.now().day) {
@@ -93,6 +91,9 @@ class TrelloApp extends StatelessWidget {
         BlocProvider<HoverCubit>(create: (_) => HoverCubit()),
 
         BlocProvider<ObsecureCubit>(create: (_) => ObsecureCubit()),
+
+        BlocProvider<CheckboxCubit>(create: (_) => CheckboxCubit()),
+
         /*
         ================== TEAM NOTE ==================
 
@@ -144,29 +145,29 @@ class TrelloApp extends StatelessWidget {
           '/': (context) => const SplashScreen(),
           '/on_boarding': (context) => const OnboardingScreen(),
 
-          // Auth
-          '/signUp': (context) => const SignUpScreen(),
-          '/login': (context) => const LoginScreen(),
+              // Auth
+              '/signUp': (context) => const SignUpScreen(),
+              '/login': (context) => const LoginScreen(),
 
-          // Home
-          '/home': (context) => const HomeScreen(),
-          '/settings': (context) => const SettingsScreen(),
-          '/favScreen': (context) => const FavScreen(),
-          '/recentScreen': (context) => const RecentScreen(),
-          '/personalScreen': (context) => const PersonalScreen(),
+              // Home
+              '/home': (context) => const HomeScreen(),
+              '/settings': (context) => const SettingsScreen(),
+              '/favScreen': (context) => const FavScreen(),
+              '/recentScreen': (context) => const RecentScreen(),
+              '/personalScreen': (context) => const PersonalScreen(),
 
-          // Workspace
-          '/workspaceScreen': (context) => const WorkspaceScreen(),
+              // Workspace
+              '/workspaceScreen': (context) => const WorkspaceScreen(),
 
-          // Cards
-          '/cardsScreen': (context) => const CardsScreen(),
+              // Cards
+              '/cardsScreen': (context) => const CardsScreen(),
 
-          // Add Board
-          '/addBoard': (context) => const AddBoardScreen(),
-          // Add card
-          '/addCard': (context) => const AddCardScreen(),
-        },
-      ),
+              // Add Board
+              '/addBoard': (context) => const AddBoardScreen(),
+              // Add card
+              '/addCard': (context) => const AddCardScreen(),
+            },
+          )
     );
   }
 }

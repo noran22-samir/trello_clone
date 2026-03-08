@@ -110,6 +110,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black
                                 ),
                               ),
                               Spacer(),
@@ -191,6 +192,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black
                                 ),
                               ),
                               Spacer(),
@@ -292,6 +294,8 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black
+
                                 ),
                               ),
                               Spacer(),
@@ -399,6 +403,8 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black
+
                                 ),
                               ),
                               Spacer(),
@@ -525,6 +531,8 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black
+
                                 ),
                               ),
                               Spacer(),
@@ -632,6 +640,8 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black
+
                                 ),
                               ),
                               Spacer(),

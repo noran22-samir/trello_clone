@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trello/core/utils/app_colors.dart';
 import 'package:trello/core/widget/custom_bottom_bar.dart';
 import 'package:trello/core/widget/custom_floating_button.dart';
+import 'package:trello/features/settings/cubit/checkbox%20cubit/checkbox_cubit.dart';
 import 'package:trello/services/auth_service.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -12,7 +14,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: Row(
             children: [
               Image.asset("assets/images/logo_icon.png", width: 33, height: 33),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               const Text(
                 "Settings",
                 style: TextStyle(
@@ -40,7 +41,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             padding: const EdgeInsets.only(top: 9),
             child: IconButton(
               onPressed: () {},
-              icon: CircleAvatar(
+              icon: const CircleAvatar(
                 radius: 17,
                 backgroundImage: NetworkImage(
                   "https://avatars.githubusercontent.com/u/110792649?v=4",
@@ -66,45 +67,64 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: () {},
             ),
             const Divider(),
-            _buildSectionTitle("Theme"),
-            ListTile(
-              title: const Text("Choose theme"),
-              contentPadding: EdgeInsets.zero,
-              onTap: () {},
-            ),
-            const Divider(),
             _buildSectionTitle("Accessibility"),
-            _buildCheckboxTile("Color blind friendly", false),
-            _buildCheckboxTile("Enable animations", false),
-            _buildCheckboxTile("Show labels names", false),
+            _buildCheckboxTile("Color blind friendly", 1),
+            _buildCheckboxTile("Enable animations", 2),
+            _buildCheckboxTile("Show labels names", 3),
             const Divider(),
             _buildSectionTitle("Sync"),
-            ListTile(
-              title: const Text("Offline boards"),
+            const ListTile(
+              title: Text("Offline boards"),
               contentPadding: EdgeInsets.zero,
             ),
-            ListTile(
-              title: const Text("Sync queue"),
+            const ListTile(
+              title: Text("Sync queue"),
               contentPadding: EdgeInsets.zero,
             ),
             const Divider(),
             _buildSectionTitle("General"),
-            ListTile(
-              title: const Text("Profile and visibility"),
+            const ListTile(
+              title: Text("Profile and visibility"),
               contentPadding: EdgeInsets.zero,
             ),
-            ListTile(
-              title: const Text("Create card defaults"),
+            const ListTile(
+              title: Text("Create card defaults"),
               contentPadding: EdgeInsets.zero,
             ),
-            ListTile(
-              title: const Text("Help"),
+            const ListTile(
+              title: Text("Help"),
               contentPadding: EdgeInsets.zero,
             ),
             ListTile(
               title: const Text("Log Out", style: TextStyle(color: Colors.red)),
               contentPadding: EdgeInsets.zero,
-              onTap: () async {
+              onTap: () {
+                _showLogoutDialog(context);
+              },
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: const CustomFloatingButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: const CustomBottomBar(),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Log Out"),
+          content: const Text("Are you sure you want to log out?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
                 await AuthService().logout();
                 if (context.mounted) {
                   Navigator.pushNamedAndRemoveUntil(
@@ -114,13 +134,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   );
                 }
               },
+              child: const Text("Yes, Log Out", style: TextStyle(color: Colors.red)),
             ),
           ],
-        ),
-      ),
-      floatingActionButton: const CustomFloatingButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const CustomBottomBar(),
+        );
+      },
     );
   }
 
@@ -138,13 +156,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildCheckboxTile(String title, bool value) {
-    return CheckboxListTile(
-      title: Text(title),
-      value: value,
-      onChanged: (val) {},
-      contentPadding: EdgeInsets.zero,
-      controlAffinity: ListTileControlAffinity.trailing,
+  Widget _buildCheckboxTile(String title, int value) {
+    return BlocSelector<CheckboxCubit, CheckboxState, bool>(
+      selector: (state) {
+        if (value == 1) return state.box1;
+        if (value == 2) return state.box2;
+        return state.box3;
+      },
+      builder: (BuildContext context, bool isChecked) {
+        return CheckboxListTile(
+          title: Text(title),
+          value: isChecked,
+          onChanged: (val) {
+            var cubit = context.read<CheckboxCubit>();
+            if (value == 1) cubit.box1();
+            if (value == 2) cubit.box2();
+            if (value == 3) cubit.box3();
+          },
+          contentPadding: EdgeInsets.zero,
+          controlAffinity: ListTileControlAffinity.trailing,
+          activeColor: AppColors.blueMain_buttons,
+          checkColor: AppColors.white,
+        );
+      },
     );
   }
 }

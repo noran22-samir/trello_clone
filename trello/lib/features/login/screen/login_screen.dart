@@ -20,7 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final AuthService _authService = AuthService();
 
-  bool _obscurePassword = true;
 
   //e-mail validation
   String? _validateEmail(String? value) {
