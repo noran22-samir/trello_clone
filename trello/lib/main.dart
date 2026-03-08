@@ -6,7 +6,8 @@ import 'package:trello/core/widget/controllers/hover%20cubit/cubit/hover_cubit.d
 import 'package:trello/core/widget/controllers/obsecure%20cubit/cubit/obsecure_cubit.dart';
 import 'package:trello/services/auth_service.dart';
 import './data/hive_data_store.dart';
-import '../models/task.dart';
+import './models/task.dart';
+
 import './views/tasks/task_view.dart';
 
 // Splash
@@ -53,11 +54,12 @@ void debugPrintAllUsers() {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter(TaskAdapter());
 
-  // فتح كل الـ boxes المطلوبة
   await Hive.openBox('users');
   await Hive.openBox('settings');
-  await Hive.openBox<Task>('tasksBox'); // <-- لازم await هنا
+
+  await Hive.openBox<Task>('tasksBox'); 
 
   print("Hive boxes opened successfully");
   debugPrintAllUsers();
