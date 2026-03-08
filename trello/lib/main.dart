@@ -5,6 +5,10 @@ import 'package:trello/core/widget/controllers/bottomBar%20cubit/cubit/bottom_ba
 import 'package:trello/core/widget/controllers/hover%20cubit/cubit/hover_cubit.dart';
 import 'package:trello/core/widget/controllers/obsecure%20cubit/cubit/obsecure_cubit.dart';
 import 'package:trello/services/auth_service.dart';
+import './data/hive_data_store.dart';
+import './models/task.dart';
+
+import './views/tasks/task_view.dart';
 
 // Splash
 import 'features/splash/screen/splash_screen.dart';
@@ -37,7 +41,7 @@ import 'features/add_new/screens/addBoard.dart';
 
 // Add card
 import 'features/add_new/screens/addCard.dart';
-
+import 'package:trello/core/widget/base_widget.dart';
 void debugPrintAllUsers() {
   final users = Hive.box('users');
   print("--- Registered Users ---");
@@ -50,20 +54,28 @@ void debugPrintAllUsers() {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter(TaskAdapter());
 
-  try {
-    await Hive.openBox('users');
-    await Hive.openBox('settings');
-    print("Hive boxes opened successfully");
-    debugPrintAllUsers();
-  } catch (e) {
-    print("Error opening Hive boxes: $e");
-  }
+  await Hive.openBox('users');
+  await Hive.openBox('settings');
+
+  await Hive.openBox<Task>('tasksBox'); 
+
+  print("Hive boxes opened successfully");
+  debugPrintAllUsers();
+
+  // مسح مهام اليوم السابق
+  final tasksBox = Hive.box<Task>('tasksBox');
+  tasksBox.values.forEach((task) {
+    if (task.createdAtTime.day != DateTime.now().day) {
+      task.delete();
+    }
+  });
 
   final authService = AuthService();
   bool isLoggedIn = authService.checkLogin();
 
-  runApp(TrelloApp(isLoggedIn: isLoggedIn));
+  runApp(BaseWidget(child: TrelloApp(isLoggedIn: isLoggedIn)));
 }
 
 class TrelloApp extends StatelessWidget {
@@ -96,6 +108,37 @@ class TrelloApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          textTheme: const TextTheme(
+            displayLarge: TextStyle(
+              color: Colors.black,
+              fontSize: 45,
+              fontWeight: FontWeight.bold,
+            ),
+            titleMedium: TextStyle(
+              color: Colors.grey,
+              fontSize: 16,
+              fontWeight: FontWeight.w300,
+            ),
+            displayMedium: TextStyle(color: Colors.white, fontSize: 21),
+            displaySmall: TextStyle(
+              color: Color.fromARGB(255, 234, 234, 234),
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+            headlineMedium: TextStyle(color: Colors.grey, fontSize: 17),
+            headlineSmall: TextStyle(color: Colors.grey, fontSize: 16),
+            titleSmall: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+            titleLarge: TextStyle(
+              fontSize: 40,
+              color: Colors.black,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+        ),
         initialRoute: '/',
         routes: {
           '/': (context) => const SplashScreen(),
