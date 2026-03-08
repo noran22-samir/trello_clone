@@ -464,14 +464,14 @@ class FAB extends StatelessWidget {
         );
       },
       child: Material(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(50),
         elevation: 10,
         child: Container(
           width: 70,
           height: 70,
           decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.circular(15),
+            color: AppColors.blueMain_buttons,
+            borderRadius: BorderRadius.circular(50),
           ),
           child: const Center(
               child: Icon(
