@@ -126,9 +126,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          floatingActionButton: const FAB(),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          // floatingActionButton: const FAB(),
+          // floatingActionButtonLocation:
+          //     FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: CustomFloatingButton(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: const CustomBottomBar(),
 
           /// Floating Action Button
@@ -446,40 +448,40 @@ class _MyAppBarState extends State<MyAppBar>
 }
 
 /// Floating Action Button
-class FAB extends StatelessWidget {
-  const FAB({Key? key}) : super(key: key);
+// class FAB extends StatelessWidget {
+//   const FAB({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          CupertinoPageRoute(
-            builder: (context) => TaskView(
-              taskControllerForSubtitle: null,
-              taskControllerForTitle: null,
-              task: null,
-            ),
-          ),
-        );
-      },
-      child: Material(
-        borderRadius: BorderRadius.circular(15),
-        elevation: 10,
-        child: Container(
-          width: 70,
-          height: 70,
-          decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: const Center(
-              child: Icon(
-            Icons.add,
-            color: Colors.white,
-          )),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: () {
+//         Navigator.of(context).push(
+//           CupertinoPageRoute(
+//             builder: (context) => TaskView(
+//               taskControllerForSubtitle: null,
+//               taskControllerForTitle: null,
+//               task: null,
+//             ),
+//           ),
+//         );
+//       },
+//       child: Material(
+//         borderRadius: BorderRadius.circular(15),
+//         elevation: 10,
+//         child: Container(
+//           width: 70,
+//           height: 70,
+//           decoration: BoxDecoration(
+//             color: AppColors.primaryColor,
+//             borderRadius: BorderRadius.circular(15),
+//           ),
+//           child: const Center(
+//               child: Icon(
+//             Icons.add,
+//             color: Colors.white,
+//           )),
+//         ),
+//       ),
+//     );
+//   }
+// }
