@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trello/core/utils/app_colors.dart';
+import 'package:trello/core/widget/controllers/hover%20cubit/cubit/hover_cubit.dart';
 
-class CustomFloatingButton extends StatefulWidget {
+class CustomFloatingButton extends StatelessWidget {
   const CustomFloatingButton({super.key});
-
-  @override
-  State<CustomFloatingButton> createState() => _CustomFloatingButtonState();
-}
-
-class _CustomFloatingButtonState extends State<CustomFloatingButton> {
-  bool _addHoverd = false;
 
   void _showAddMenu(BuildContext context) {
     showModalBottomSheet(
@@ -36,10 +31,7 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
                   Icons.dashboard_customize,
                   color: AppColors.blueMain_buttons,
                 ),
-                title: Text(
-                  "Add Board",
-                  style: TextStyle(color: AppColors.black),
-                ),
+                title: Text("Add Board"),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/addBoard');
@@ -50,10 +42,7 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
                   Icons.group_add,
                   color: AppColors.blueMain_buttons,
                 ),
-                title: Text(
-                  "Add Workspace",
-                  style: TextStyle(color: AppColors.black),
-                ),
+                title: Text("Add Workspace"),
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
@@ -79,7 +68,7 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.black,
+                                // color: AppColors.black,
                               ),
                             ),
                             SizedBox(height: 10),
@@ -97,14 +86,7 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
                               onPressed: () {
                                 if (workspaceController.text.isNotEmpty) {
                                   Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        "Workspace '${workspaceController.text}' created!",
-                                      ),
-                                    ),
-                                  );
-                                  workspaceController.clear();
+                                  Navigator.pop(context);
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -129,10 +111,7 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
                   Icons.add_to_photos,
                   color: AppColors.blueMain_buttons,
                 ),
-                title: Text(
-                  "Add Card",
-                  style: TextStyle(color: AppColors.black),
-                ),
+                title: Text("Add Card"),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/addCard');
@@ -147,20 +126,29 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) {
-        setState(() => _addHoverd = true);
-      },
-      onExit: (_) {
-        setState(() => _addHoverd = false);
-      },
-      child: FloatingActionButton(
-        onPressed: () => _showAddMenu(context),
-        backgroundColor: _addHoverd
-            ? AppColors.blueDark_searchButton
-            : AppColors.blueMain_buttons,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add, color: Colors.white, size: 30),
+    return BlocProvider(
+      create: (context) => HoverCubit(),
+      child: BlocBuilder<HoverCubit, HoverState>(
+        builder: (BuildContext context, state) {
+          return MouseRegion(
+            onEnter: (_) {
+              // setState(() => _addHoverd = true);
+              context.read<HoverCubit>().floatingHoverChanged(true);
+            },
+            onExit: (_) {
+              // setState(() => _addHoverd = false);
+              context.read<HoverCubit>().floatingHoverChanged(false);
+            },
+            child: FloatingActionButton(
+              onPressed: () => _showAddMenu(context),
+              backgroundColor: state.isHoverd
+                  ? AppColors.blueDark_searchButton
+                  : AppColors.blueMain_buttons,
+              shape: const CircleBorder(),
+              child: const Icon(Icons.add, color: Colors.white, size: 30),
+            ),
+          );
+        },
       ),
     );
   }

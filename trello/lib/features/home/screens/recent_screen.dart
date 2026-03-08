@@ -222,7 +222,7 @@ class _RecentScreenState extends State<RecentScreen> {
       ),
       floatingActionButton: const CustomFloatingButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const CustomBottomBar(selectedIndex: 0,),
+      bottomNavigationBar: const CustomBottomBar(),
     );
   }
 }

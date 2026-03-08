@@ -28,7 +28,7 @@ class _CardsScreenState extends State<CardsScreen> {
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.black,
+                  // color: AppColors.black,
                 ),
               ),
             ],
@@ -41,7 +41,7 @@ class _CardsScreenState extends State<CardsScreen> {
               onPressed: () {},
               icon: Icon(
                 Icons.filter_list,
-                color: AppColors.black.withOpacity(0.4),
+                // color: AppColors.black.withOpacity(0.4),
                 size: 20,
               ),
             ),
@@ -52,7 +52,7 @@ class _CardsScreenState extends State<CardsScreen> {
               onPressed: () {},
               icon: Icon(
                 Icons.search,
-                color: AppColors.black.withOpacity(0.4),
+                // color: AppColors.black.withOpacity(0.4),
                 size: 20,
               ),
             ),
@@ -125,6 +125,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black,
                                 ),
                               ),
                               Spacer(),
@@ -207,6 +208,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black,
                                 ),
                               ),
                               Spacer(),
@@ -315,6 +317,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black,
                                 ),
                               ),
                               Spacer(),
@@ -397,6 +400,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black,
                                 ),
                               ),
                               Spacer(),
@@ -465,7 +469,7 @@ class _CardsScreenState extends State<CardsScreen> {
       ),
       floatingActionButton: const CustomFloatingButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const CustomBottomBar(selectedIndex: 2,),
+      bottomNavigationBar: const CustomBottomBar(),
     );
   }
 }

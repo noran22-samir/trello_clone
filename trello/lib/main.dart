@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:trello/core/widget/controllers/bottomBar%20cubit/cubit/bottom_bar_cubit.dart';
+import 'package:trello/core/widget/controllers/hover%20cubit/cubit/hover_cubit.dart';
+import 'package:trello/core/widget/controllers/obsecure%20cubit/cubit/obsecure_cubit.dart';
+import 'package:trello/features/settings/cubit/checkbox%20cubit/checkbox_cubit.dart';
 import 'package:trello/services/auth_service.dart';
+import './models/task.dart';
+
 
 // Splash
 import 'features/splash/screen/splash_screen.dart';
@@ -33,36 +39,48 @@ import 'features/cards/screens/cardsUi.dart';
 import 'features/add_new/screens/addBoard.dart';
 
 // Add card
+import 'package:trello/core/widget/base_widget.dart';
+import 'models/card_model.dart';
 import 'features/add_new/screens/addCard.dart';
 
-import 'models/workspace_model.dart';
-import 'models/card_model.dart';
-import 'features/add_new/cubit/addCard_cubit.dart';
-import 'features/simple_bloc_observer.dart ';
+
+void debugPrintAllUsers() {
+  final users = Hive.box('users');
+  print("--- Registered Users ---");
+  for (var key in users.keys) {
+    print("Email: $key | Hashed Pass: ${users.get(key)}");
+  }
+  print("------------------------");
+}
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter(TaskAdapter());
 
-  try {
-    await Hive.openBox('users');
-    await Hive.openBox('settings');
-    print("Hive boxes opened successfully");
-  } catch (e) {
-    print("Error opening Hive boxes: $e");
-  }
+  await Hive.openBox('users');
+  await Hive.openBox('settings');
 
-  Bloc.observer = SimpleBlocObserver();
+  await Hive.openBox<Task>('tasksBox'); 
 
-  await Hive.openBox('workspacesBox');
-  Hive.registerAdapter(WorkspaceModelAdapter());       
-  await Hive.openBox('cardsBox');
-  Hive.registerAdapter(CardModelAdapter());
+  print("Hive boxes opened successfully");
+  debugPrintAllUsers();
 
+  final tasksBox = Hive.box<Task>('tasksBox');
+  tasksBox.values.forEach((task) {
+    if (task.createdAtTime.day != DateTime.now().day) {
+      task.delete();
+    }
+  });
+
+
+  
   final authService = AuthService();
   bool isLoggedIn = authService.checkLogin();
 
-  runApp(TrelloApp(isLoggedIn: isLoggedIn));
+  runApp(BaseWidget(child: TrelloApp(isLoggedIn: isLoggedIn)));
 }
 
 class TrelloApp extends StatelessWidget {
@@ -74,7 +92,14 @@ class TrelloApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<SplashCubit>(create: (_) => SplashCubit()..startSplash()),
-        BlocProvider<AddCardCubit>(create: (_) => AddCardCubit()),
+
+        BlocProvider<BottomBarCubit>(create: (_) => BottomBarCubit()),
+
+        BlocProvider<HoverCubit>(create: (_) => HoverCubit()),
+
+        BlocProvider<ObsecureCubit>(create: (_) => ObsecureCubit()),
+
+        BlocProvider<CheckboxCubit>(create: (_) => CheckboxCubit()),
 
         /*
         ================== TEAM NOTE ==================
@@ -91,34 +116,65 @@ class TrelloApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          textTheme: const TextTheme(
+            displayLarge: TextStyle(
+              color: Colors.black,
+              fontSize: 45,
+              fontWeight: FontWeight.bold,
+            ),
+            titleMedium: TextStyle(
+              color: Colors.grey,
+              fontSize: 16,
+              fontWeight: FontWeight.w300,
+            ),
+            displayMedium: TextStyle(color: Colors.white, fontSize: 21),
+            displaySmall: TextStyle(
+              color: Color.fromARGB(255, 234, 234, 234),
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+            headlineMedium: TextStyle(color: Colors.grey, fontSize: 17),
+            headlineSmall: TextStyle(color: Colors.grey, fontSize: 16),
+            titleSmall: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+            titleLarge: TextStyle(
+              fontSize: 40,
+              color: Colors.black,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+        ),
         initialRoute: '/',
         routes: {
           '/': (context) => const SplashScreen(),
           '/on_boarding': (context) => const OnboardingScreen(),
 
-          // Auth
-          '/signUp': (context) => const SignUpScreen(),
-          '/login': (context) => const LoginScreen(),
+              // Auth
+              '/signUp': (context) => const SignUpScreen(),
+              '/login': (context) => const LoginScreen(),
 
-          // Home
-          '/home': (context) => const HomeScreen(),
-          '/settings': (context) => const SettingsScreen(),
-          '/favScreen': (context) => const FavScreen(),
-          '/recentScreen': (context) => const RecentScreen(),
-          '/personalScreen': (context) => const PersonalScreen(),
+              // Home
+              '/home': (context) => const HomeScreen(),
+              '/settings': (context) => const SettingsScreen(),
+              '/favScreen': (context) => const FavScreen(),
+              '/recentScreen': (context) => const RecentScreen(),
+              '/personalScreen': (context) => const PersonalScreen(),
 
-          // Workspace
-          '/workspaceScreen': (context) => const WorkspaceScreen(),
+              // Workspace
+              '/workspaceScreen': (context) => const WorkspaceScreen(),
 
-          // Cards
-          '/cardsScreen': (context) => const CardsScreen(),
+              // Cards
+              '/cardsScreen': (context) => const CardsScreen(),
 
-          // Add Board
-          '/addBoard': (context) => const AddBoardScreen(),
-          // Add card
-          '/addCard': (context) => const AddCardScreen(),
-        },
-      ),
+              // Add Board
+              '/addBoard': (context) => const AddBoardScreen(),
+              // Add card
+              '/addCard': (context) => const AddCardScreen(),
+            },
+          )
     );
   }
 }

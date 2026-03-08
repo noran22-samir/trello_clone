@@ -1,613 +1,487 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:trello/core/utils/app_colors.dart';
-import 'package:trello/core/widget/custom_bottom_bar.dart';
-import 'package:trello/core/widget/custom_floating_button.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:lottie/lottie.dart';
+import '../../../models/task.dart';
+import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/app_str.dart';
+import '../../../core/widget/custom_bottom_bar.dart';
+import '../../../core/widget/custom_floating_button.dart';
+import '../../../core/widget/task_widget.dart';
+import '../../../core/widget/base_widget.dart';
+import '../../../views/tasks/task_view.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+import '../../../main.dart'; //
+import '../../../core/utils/constanst.dart'; //
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  // ignore: library_private_types_in_public_api
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Map<String, dynamic>> _data = [
-    {"title": "Project Alpha", "workspace": 2, "lists": 5, "cards": 20},
-    {"title": "Marketing Campaign", "workspace": 1, "lists": 3, "cards": 15},
-    {"title": "Product Launch", "workspace": 3, "lists": 4, "cards": 10},
-    {"title": "Design Sprint", "workspace": 5, "lists": 6, "cards": 25},
-    {"title": "Event Planning", "workspace": 2, "lists": 2, "cards": 8},
-    {"title": "Customer Support", "workspace": 4, "lists": 7, "cards": 30},
-    {"title": "HR Onboarding", "workspace": 1, "lists": 3, "cards": 12},
+  GlobalKey<SliderDrawerState> dKey = GlobalKey<SliderDrawerState>();
+
+  /// Checking Done Tasks
+  int checkDoneTask(List<Task> task) {
+    int i = 0;
+    for (Task doneTasks in task) {
+      if (doneTasks.isCompleted) {
+        i++;
+      }
+    }
+    return i;
+  }
+
+  /// Checking The Value Of the Circle Indicator
+  dynamic valueOfTheIndicator(List<Task> task) {
+    if (task.isNotEmpty) {
+      return task.length;
+    } else {
+      return 3;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final base = BaseWidget.of(context);
+    var textTheme = Theme.of(context).textTheme;
+
+    return ValueListenableBuilder(
+        valueListenable: base.dataStore.listenToTask(),
+        builder: (ctx, Box<Task> box, Widget? child) {
+          var tasks = box.values.toList();
+
+          /// Sort Task List
+          tasks.sort(((a, b) => a.createdAtDate.compareTo(b.createdAtDate)));
+
+          return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Padding(
+              padding: const EdgeInsets.only(top: 9),
+              child: Row(
+                children: [
+                  Image.asset(
+                    "assets/images/logo_icon.png",
+                    width: 33,
+                    height: 33,
+                  ),
+                  const SizedBox(width: 5),
+                  const Text(
+                    "Boards",
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(top: 9),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.search,
+                    color: AppColors.black.withOpacity(0.4),
+                    size: 20,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 9),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.notifications_none,
+                    color: AppColors.black.withOpacity(0.4),
+                    size: 20,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 9),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const CircleAvatar(
+                    radius: 17,
+                    backgroundImage: NetworkImage(
+                      "https://avatars.githubusercontent.com/u/110792649?v=4",
+                    ),
+                  ),
+                ),
+              ),
+            ],
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1),
+              child: Container(color: Colors.grey[300], height: 1),
+            ),
+          ),
+
+          // floatingActionButton: const FAB(),
+          // floatingActionButtonLocation:
+          //     FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: CustomFloatingButton(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: const CustomBottomBar(),
+
+          /// Floating Action Button
+          // floatingActionButton: const FAB(),
+
+          /// Body
+          body: _buildBody(tasks, base, textTheme),
+        );
+        });
+  }
+
+  /// Main Body
+  SizedBox _buildBody(
+    List<Task> tasks,
+    BaseWidget base,
+    TextTheme textTheme,
+  ) {
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: Column(
+        children: [
+          /// Top Section Of Home page : Text, Progrss Indicator
+          Container(
+            margin: const EdgeInsets.fromLTRB(55, 0, 0, 0),
+            width: double.infinity,
+            height: 100,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                /// CircularProgressIndicator
+                SizedBox(
+                  width: 25,
+                  height: 25,
+                  child: CircularProgressIndicator(
+                    valueColor: const AlwaysStoppedAnimation(AppColors.primaryColor),
+                    backgroundColor: Colors.grey,
+                    value: checkDoneTask(tasks) / valueOfTheIndicator(tasks),
+                  ),
+                ),
+                const SizedBox(
+                  width: 25,
+                ),
+
+                /// Texts
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(MyString.mainTitle, style: textTheme.displayLarge),
+                    const SizedBox(
+                      height: 3,
+                    ),
+                    Text("${checkDoneTask(tasks)} of ${tasks.length} task",
+                        style: textTheme.titleMedium),
+                  ],
+                )
+              ],
+            ),
+          ),
+
+          /// Divider
+          const Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: Divider(
+              thickness: 2,
+              indent: 100,
+            ),
+          ),
+
+          /// Bottom ListView : Tasks
+          Expanded(
+            child: tasks.isNotEmpty
+                ? ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: tasks.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var task = tasks[index];
+
+                      return Dismissible(
+                        direction: DismissDirection.horizontal,
+                        background: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(
+                              Icons.delete_outline,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Text(MyString.deletedTask,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ))
+                          ],
+                        ),
+                        onDismissed: (direction) {
+                          base.dataStore.deleteTask(task: task);
+                        },
+                        key: Key(task.id),
+                        child: TaskWidget(
+                          task: tasks[index],
+                        ),
+                      );
+                    },
+                  )
+
+                /// if All Tasks Done Show this Widgets
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      /// Lottie
+                      FadeIn(
+                        child: SizedBox(
+                          width: 200,
+                          height: 200,
+                          child: Lottie.asset(
+                            "../../../../assets/lottie/1.json",
+                            animate: tasks.isNotEmpty ? false : true,
+                          ),
+                        ),
+                      ),
+
+                      /// Bottom Texts
+                      FadeInUp(
+                        from: 30,
+                        child: const Text(MyString.doneAllTask),
+                      ),
+                    ],
+                  ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+/// My Drawer Slider
+class MySlider extends StatelessWidget {
+  MySlider({
+    Key? key,
+  }) : super(key: key);
+
+  /// Icons
+  List<IconData> icons = [
+    CupertinoIcons.home,
+    CupertinoIcons.person_fill,
+    CupertinoIcons.settings,
+    CupertinoIcons.info_circle_fill,
+  ];
+
+  /// Texts
+  List<String> texts = [
+    "Home",
+    "Profile",
+    "Settings",
+    "Details",
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 9),
-          child: Row(
-            children: [
-              Image.asset("assets/images/logo_icon.png", width: 33, height: 33),
-              SizedBox(width: 5),
-              const Text(
-                "Boards",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.black,
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(top: 9),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.search,
-                color: AppColors.black.withOpacity(0.4),
-                size: 20,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 9),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.notifications_none,
-                color: AppColors.black.withOpacity(0.4),
-                size: 20,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 9),
-            child: IconButton(
-              onPressed: () {},
-              icon: CircleAvatar(
-                radius: 17,
-                backgroundImage: NetworkImage(
-                  "https://avatars.githubusercontent.com/u/110792649?v=4",
-                ),
-              ),
-            ),
-          ),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(color: Colors.grey[300], height: 1),
-        ),
+    var textTheme = Theme.of(context).textTheme;
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 90),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+            colors: AppColors.primaryGradientColor,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: ListView(
+      child: Column(
+        children: [
+          const CircleAvatar(
+            radius: 50,
+            backgroundImage: AssetImage('assets/img/main.png'),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Text("AmirHossein Bayat", style: textTheme.displayMedium),
+          Text("junior flutter dev", style: textTheme.displaySmall),
+          Container(
+            margin: const EdgeInsets.symmetric(
+              vertical: 30,
+              horizontal: 10,
+            ),
+            width: double.infinity,
+            height: 300,
+            child: ListView.builder(
+                itemCount: icons.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (ctx, i) {
+                  return InkWell(
+                    // ignore: avoid_print
+                    onTap: () => print("$i Selected"),
+                    child: Container(
+                      margin: const EdgeInsets.all(5),
+                      child: ListTile(
+                          leading: Icon(
+                            icons[i],
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                          title: Text(
+                            texts[i],
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          )),
+                    ),
+                  );
+                }),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+/// My App Bar
+class MyAppBar extends StatefulWidget implements PreferredSizeWidget {  MyAppBar({Key? key, 
+    required this.drawerKey,
+  }) : super(key: key);
+  GlobalKey<SliderDrawerState> drawerKey;
+
+  @override
+  State<MyAppBar> createState() => _MyAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(100);
+}
+
+class _MyAppBarState extends State<MyAppBar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  bool isDrawerOpen = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  /// toggle for drawer and icon aniamtion
+  void toggle() {
+    setState(() {
+      isDrawerOpen = !isDrawerOpen;
+      if (isDrawerOpen) {
+        controller.forward();
+        widget.drawerKey.currentState!.openSlider();
+      } else {
+        controller.reverse();
+        widget.drawerKey.currentState!.closeSlider();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var base = BaseWidget.of(context).dataStore.box;
+    return SizedBox(
+      width: double.infinity,
+      height: 132,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                Text(
-                  "Favourite",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.black,
+            /// Animated Icon - Menu & Close
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  icon: AnimatedIcon(
+                    icon: AnimatedIcons.menu_close,
+                    progress: controller,
+                    size: 40,
                   ),
-                ),
-                Spacer(),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/favScreen');
-                  },
-                  child: Text(
-                    "show all",
-                    style: TextStyle(color: AppColors.blueMain_buttons),
-                  ),
-                ),
-              ],
+                  onPressed: toggle),
             ),
-            SizedBox(height: 3),
-            SizedBox(
-              height: 180,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 7,
-                itemBuilder: (context, index) {
-                  final item = _data[index % _data.length];
-                  final containerColor = index % 2 == 0
-                      ? AppColors.blueSky_card
-                      : AppColors.lightGreen_card;
-                  return Container(
-                    width: 250,
-                    margin: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: containerColor,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                item['title'],
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.black,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 62,
-                                height: 30,
-                                child: Stack(
-                                  children: List.generate(
-                                    item['workspace'] > 3
-                                        ? 4
-                                        : item['workspace'],
-                                    (imgIndex) {
-                                      return Positioned(
-                                        left: imgIndex * 12.0,
 
-                                        child: CircleAvatar(
-                                          radius: 14,
-
-                                          backgroundImage: (imgIndex < 3)
-                                              ? NetworkImage(
-                                                  "https://picsum.photos/100?sig=${index + imgIndex}",
-                                                )
-                                              : null,
-                                          child:
-                                              (imgIndex == 3 &&
-                                                  item['workspace'] > 3)
-                                              ? Center(
-                                                  child: Text(
-                                                    "+${item['workspace'] - 3}",
-                                                    style: TextStyle(
-                                                      fontSize: 9,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: AppColors
-                                                          .blueMain_buttons,
-                                                    ),
-                                                  ),
-                                                )
-                                              : null,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 18),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.people,
-                                size: 16,
-                                color: AppColors.black.withOpacity(0.3),
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                "Workspace ${item['workspace']}",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.black.withOpacity(0.7),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 25),
-                        Divider(height: 1),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "${item['lists']} Lists",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppColors.black.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: 39,
-                                width: 1,
-                                color: AppColors.black.withOpacity(0.3),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 15),
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      "${item['cards']} Cards",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppColors.black.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+            /// Delete Icon
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: GestureDetector(
+                onTap: () {
+                  // base.isEmpty
+                  //     ? warningNoTask(context)
+                  //     : deleteAllTask(context);
                 },
+                child: const Icon(
+                  CupertinoIcons.trash,
+                  size: 40,
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Text(
-                  "Recent",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.black,
-                  ),
-                ),
-                Spacer(),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/recentScreen');
-                  },
-                  child: Text(
-                    "show all",
-                    style: TextStyle(color: AppColors.blueMain_buttons),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 3),
-            SizedBox(
-              height: 180,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 7,
-                itemBuilder: (context, index) {
-                  final item = _data[index % _data.length];
-                  final containerColor = index % 2 == 0
-                      ? AppColors.lightOrange_card
-                      : AppColors.lightRed_card;
-                  return Container(
-                    width: 250,
-                    margin: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: containerColor,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                item['title'],
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.black,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 62,
-                                height: 30,
-                                child: Stack(
-                                  children: List.generate(
-                                    item['workspace'] > 3
-                                        ? 4
-                                        : item['workspace'],
-                                    (imgIndex) {
-                                      return Positioned(
-                                        left: imgIndex * 12.0,
-
-                                        child: CircleAvatar(
-                                          radius: 14,
-
-                                          backgroundImage: (imgIndex < 3)
-                                              ? NetworkImage(
-                                                  "https://picsum.photos/100?sig=${index + imgIndex}",
-                                                )
-                                              : null,
-                                          child:
-                                              (imgIndex == 3 &&
-                                                  item['workspace'] > 3)
-                                              ? Center(
-                                                  child: Text(
-                                                    "+${item['workspace'] - 3}",
-                                                    style: TextStyle(
-                                                      fontSize: 9,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: AppColors
-                                                          .blueMain_buttons,
-                                                    ),
-                                                  ),
-                                                )
-                                              : null,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 18),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.people,
-                                size: 16,
-                                color: AppColors.black.withOpacity(0.3),
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                "Workspace ${item['workspace']}",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.black.withOpacity(0.7),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 25),
-                        Divider(height: 1),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "${item['lists']} Lists",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppColors.black.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: 39,
-                                width: 1,
-                                color: AppColors.black.withOpacity(0.3),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 15),
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      "${item['cards']} Cards",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppColors.black.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Text(
-                  "Personal",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.black,
-                  ),
-                ),
-                Spacer(),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/personalScreen');
-                  },
-                  child: Text(
-                    "show all",
-                    style: TextStyle(color: AppColors.blueMain_buttons),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 3),
-
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                final item = _data[index % _data.length];
-                final containerColor = index % 2 == 0
-                    ? AppColors.lightPurple_card
-                    : AppColors.skyBlue_card;
-                return Container(
-                  width: 250,
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: containerColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              item['title'],
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 62,
-                              height: 30,
-                              child: Stack(
-                                children: List.generate(
-                                  item['workspace'] > 3 ? 4 : item['workspace'],
-                                  (imgIndex) {
-                                    return Positioned(
-                                      left: imgIndex * 12.0,
-
-                                      child: CircleAvatar(
-                                        radius: 14,
-
-                                        backgroundImage: (imgIndex < 3)
-                                            ? NetworkImage(
-                                                "https://picsum.photos/100?sig=${index + imgIndex}",
-                                              )
-                                            : null,
-                                        child:
-                                            (imgIndex == 3 &&
-                                                item['workspace'] > 3)
-                                            ? Center(
-                                                child: Text(
-                                                  "+${item['workspace'] - 3}",
-                                                  style: TextStyle(
-                                                    fontSize: 9,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: AppColors
-                                                        .blueMain_buttons,
-                                                  ),
-                                                ),
-                                              )
-                                            : null,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 18),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.people,
-                              size: 16,
-                              color: AppColors.black.withOpacity(0.3),
-                            ),
-                            SizedBox(width: 5),
-                            Text(
-                              "Workspace ${item['workspace']}",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppColors.black.withOpacity(0.7),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 25),
-                      Divider(height: 1),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 15),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "${item['lists']} Lists",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.black.withOpacity(0.7),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 39,
-                              width: 1,
-                              color: AppColors.black.withOpacity(0.3),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    "${item['cards']} Cards",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.black.withOpacity(0.7),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
             ),
           ],
         ),
       ),
-      floatingActionButton: const CustomFloatingButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const CustomBottomBar(selectedIndex: 0),
     );
   }
 }
+
+/// Floating Action Button
+// class FAB extends StatelessWidget {
+//   const FAB({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: () {
+//         Navigator.of(context).push(
+//           CupertinoPageRoute(
+//             builder: (context) => TaskView(
+//               taskControllerForSubtitle: null,
+//               taskControllerForTitle: null,
+//               task: null,
+//             ),
+//           ),
+//         );
+//       },
+//       child: Material(
+//         borderRadius: BorderRadius.circular(15),
+//         elevation: 10,
+//         child: Container(
+//           width: 70,
+//           height: 70,
+//           decoration: BoxDecoration(
+//             color: AppColors.primaryColor,
+//             borderRadius: BorderRadius.circular(15),
+//           ),
+//           child: const Center(
+//               child: Icon(
+//             Icons.add,
+//             color: Colors.white,
+//           )),
+//         ),
+//       ),
+//     );
+//   }
+// }

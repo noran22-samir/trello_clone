@@ -35,13 +35,13 @@ class _AddBoardScreenState extends State<AddBoardScreen> {
           TextButton(
             onPressed: () {
               if (_boardNameController.text.isNotEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      "Board '${_boardNameController.text}' created!",
-                    ),
-                  ),
-                );
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(
+                //     content: Text(
+                //       "Board '${_boardNameController.text}' created!",
+                //     ),
+                //   ),
+                // );
                 Navigator.pop(context);
               }
             },
