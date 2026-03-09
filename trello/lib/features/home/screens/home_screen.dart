@@ -243,6 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      
                       /// Lottie
                       FadeIn(
                         child: SizedBox(
