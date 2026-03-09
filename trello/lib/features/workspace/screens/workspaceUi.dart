@@ -5,14 +5,8 @@ import 'package:trello/core/widget/custom_floating_button.dart';
 import '../../../core/utils/app_colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class WorkspaceScreen extends StatefulWidget {
+class WorkspaceScreen extends StatelessWidget {
   const WorkspaceScreen({super.key});
-
-  @override
-  State<WorkspaceScreen> createState() => _WorkspaceScreenState();
-}
-
-class _WorkspaceScreenState extends State<WorkspaceScreen> {
 
   @override
   Widget build(BuildContext context) {

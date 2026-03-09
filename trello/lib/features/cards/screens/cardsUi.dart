@@ -4,14 +4,9 @@ import 'package:trello/core/widget/custom_floating_button.dart';
 import '../../../core/utils/app_colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CardsScreen extends StatefulWidget {
+class CardsScreen extends StatelessWidget {
   const CardsScreen({super.key});
 
-  @override
-  State<CardsScreen> createState() => _CardsScreenState();
-}
-
-class _CardsScreenState extends State<CardsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
