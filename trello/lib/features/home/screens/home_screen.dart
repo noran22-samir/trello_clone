@@ -7,13 +7,10 @@ import '../../../models/task.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_str.dart';
 import '../../../core/widget/custom_bottom_bar.dart';
-import '../../../core/widget/custom_floating_button.dart';
 import '../../../core/widget/task_widget.dart';
 import '../../../core/widget/base_widget.dart';
 import '../../../views/tasks/task_view.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
-import '../../../main.dart'; //
-import '../../../core/utils/constanst.dart'; //
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
