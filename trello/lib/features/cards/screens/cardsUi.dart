@@ -4,14 +4,9 @@ import 'package:trello/core/widget/custom_floating_button.dart';
 import '../../../core/utils/app_colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CardsScreen extends StatefulWidget {
+class CardsScreen extends StatelessWidget {
   const CardsScreen({super.key});
 
-  @override
-  State<CardsScreen> createState() => _CardsScreenState();
-}
-
-class _CardsScreenState extends State<CardsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +23,7 @@ class _CardsScreenState extends State<CardsScreen> {
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.black,
+                  // color: AppColors.black,
                 ),
               ),
             ],
@@ -41,7 +36,7 @@ class _CardsScreenState extends State<CardsScreen> {
               onPressed: () {},
               icon: Icon(
                 Icons.filter_list,
-                color: AppColors.black.withOpacity(0.4),
+                // color: AppColors.black.withOpacity(0.4),
                 size: 20,
               ),
             ),
@@ -52,7 +47,7 @@ class _CardsScreenState extends State<CardsScreen> {
               onPressed: () {},
               icon: Icon(
                 Icons.search,
-                color: AppColors.black.withOpacity(0.4),
+                // color: AppColors.black.withOpacity(0.4),
                 size: 20,
               ),
             ),
@@ -125,6 +120,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black,
                                 ),
                               ),
                               Spacer(),
@@ -207,6 +203,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black,
                                 ),
                               ),
                               Spacer(),
@@ -315,6 +312,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black,
                                 ),
                               ),
                               Spacer(),
@@ -397,6 +395,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: AppColors.black,
                                 ),
                               ),
                               Spacer(),

@@ -126,9 +126,11 @@ class _HomeScreenState extends State<HomeScreen> {
           floatingActionButton: const FAB(),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
+          // floatingActionButton: CustomFloatingButton(),
+          // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: const CustomBottomBar(),
 
-          /// Floating Action Button
+          // Floating Action Button
           // floatingActionButton: const FAB(),
 
           /// Body
@@ -238,13 +240,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      
                       /// Lottie
                       FadeIn(
                         child: SizedBox(
                           width: 200,
                           height: 200,
                           child: Lottie.asset(
-                            "../../../../assets/lottie/1.json",
+                            "assets/lottie/1.json",
                             animate: tasks.isNotEmpty ? false : true,
                           ),
                         ),
@@ -442,7 +445,7 @@ class _MyAppBarState extends State<MyAppBar>
   }
 }
 
-/// Floating Action Button
+// Floating Action Button
 class FAB extends StatelessWidget {
   const FAB({Key? key}) : super(key: key);
 
